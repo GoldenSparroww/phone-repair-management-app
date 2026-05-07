@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script>
+        // Tento skript běží okamžitě, aby se předešlo blikání (light/dark)
+        (function() {
+            const storedTheme = localStorage.getItem('theme');
+            const theme = storedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-bs-theme', theme);
+        })();
+    </script>
+
+    {# Titulek stránky - blok pro přepsání v konkrétní šabloně #}
+    <title>{% block title %}Default Title{% endblock %}</title>
+
+    {# Zde se načítá Bootstrap CSS #}
+    {# Protože adresář Public je kořenem celého webu (tzv. Document Root), musí se použít absolutní cestu začínající lomítkem (/). #}
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css' rel="stylesheet">
+
+    {# (placeholder pro dodatečné budoucí CSS) #}
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+
+{# Navbar/header #}
+{% block header %}
+    <header>
+        <div class="bg-body-tertiary border-bottom py-2">
+            <div class="container d-flex flex-wrap justify-content-between align-items-center">
+                <a class="navbar-brand fw-bold fs-4" href="/">Lorem ipsum</a>
+
+                <ul class="nav align-items-center">
+                    {% if session.user %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-body" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Akce
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow">
+                                {% if session.user.role == 100 or session.user.role == 200 %}
+                                    <li><a class="dropdown-item" href="/admin/users">Správa uživatelů</a></li>
+                                    <li><a class="dropdown-item" href="/admin/publications">Správa publikací</a></li>
+                                {% endif %}
+                                {% if session.user.role == 20 %}
+                                    <li><a class="dropdown-item" href="/reviewer/dashboard">Moje recenze</a></li>
+                                {% endif %}
+                                {% if session.user.role == 10 %}
+                                    <li><a class="dropdown-item" href="/author/create">Nová publikace</a></li>
+                                    <li><a class="dropdown-item" href="/author/dashboard">Moje publikace</a></li>
+                                {% endif %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/auth/logout">Odhlásit se</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item d-none d-md-block">
+                            <span class="nav-link text-body-secondary disabled pe-0">
+                                {% if session.user.nickname|length > 10 %}
+                                    {{ session.user.nickname|slice(0,10) ~ '...' }}
+                                {% else %}
+                                    {{ session.user.nickname }}
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li class="nav-item d-none d-md-block">
+                            <span class="nav-link text-body-secondary disabled ps-1">
+                                <small>
+                                {% if session.user.role == 10 %}
+                                    (Autor)
+                                {% elseif session.user.role == 20 %}
+                                    (Recenzent)
+                                {% elseif session.user.role == 100 %}
+                                    (Admin)
+                                {% elseif session.user.role == 200 %}
+                                    (SuperAdmin)
+                                {% endif %}
+                                </small>
+                            </span>
+                        </li>
+                    {% else %}
+                        <li class="nav-item"><a href="/auth/login" class="nav-link link-body-emphasis">Přihlásit</a></li>
+                        <li class="nav-item"><a href="/auth/register" class="nav-link link-body-emphasis">Registrovat</a></li>
+                    {% endif %}
+
+                    <li class="nav-item ms-2 border-start ps-2">
+                        <a href="#" class="nav-link text-body" id="theme-toggler" title="Přepnout téma">
+                            <i class="bi"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-semibold">
+                        <li class="nav-item">
+                            <a class="nav-link px-3" href="/home/">Domů</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-3" href="/program/">Program</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-3" href="/publications/">Publikace</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-3" href="/contact/">Kontakt</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-3" href="/about/">O nás</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+{% endblock %}
+
+{# Hlavní blok pro obsah stránky (přepisuje se vždy) #}
+<main class="container mt-4">
+    {% block content %}{% endblock %}
+</main>
+
+{% block footer %}{% endblock %}
+
+{# Zde se načítá Bootstrap JavaScript #}
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+{# Logika pro light/dark mode #}
+<script src="/js/Base.js"></script>
+
+{# (placeholder pro dodatečné budoucí JS) #}
+{% block javascripts %}{% endblock %}
+
+</body>
+</html>

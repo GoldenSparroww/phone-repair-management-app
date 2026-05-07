@@ -1,0 +1,32 @@
+{% extends 'Base.twig' %}
+
+{% block title %}Chyba | {{ error_code is defined ? error_code : 'Neznámá chyba' }}{% endblock %}
+
+{% block content %}
+    <div class="p-5 mb-4 bg-danger text-white rounded-3">
+        <div class="container-fluid py-5 text-center">
+            <h1 class="display-1 fw-bold">
+                {% if error_code is defined %}
+                    {{ error_code }}
+                {% else %}
+                    Chyba
+                {% endif %}
+            </h1>
+            <span class="fs-3">
+                {% if error_message is defined %}
+                    <span class="text-break">{{ error_message }}</span> <br>
+                    {% if error_file and error_line is defined %}
+                    <span class="text-break">File: {{ error_file }}</span> <br>
+                    <span class="text-break">Line: {{ error_line }}</span> <br>
+                {% endif %}
+                {% else %}
+                    Omlouváme se, došlo k chybě.
+                {% endif %}
+            </span>
+            <a href="/" class="btn btn-light btn-lg mt-3">
+                Zpět na Homepage
+            </a>
+        </div>
+    </div>
+
+{% endblock %}

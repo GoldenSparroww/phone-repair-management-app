@@ -1,0 +1,43 @@
+{% extends 'Base.twig' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h1 class="h4 mb-0">Seznam probíhajících oprav</h1>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col" style="width: 10%;">ID</th>
+                        <th scope="col">Zařízení</th>
+                        <th scope="col" style="width: 25%;">Stav</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for repair in repairs %}
+                        <tr>
+                            <th scope="row">{{ repair.getId() }}</th>
+                            <td>{{ repair.getDeviceName() }}</td>
+                            <td>
+                                <span class="badge bg-info text-dark">
+                                    {{ repair.getStatus() }}
+                                </span>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="text-center text-muted py-4">
+                                Nenalezeny žádné záznamy o opravách.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
