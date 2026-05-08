@@ -1,0 +1,65 @@
+{% extends "Base.twig" %}
+
+{% block title %}Přihlášení{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <div class="card shadow border-0 rounded-4">
+                <div class="card-body p-5">
+
+                    {# Hlavní ikona a nadpis #}
+                    <div class="text-center mb-4">
+                        <div class="mb-3 text-primary">
+                            <i class="bi bi-person-circle" style="font-size: 3rem;"></i>
+                        </div>
+                        <p class="text-body-secondary">Přihlaste se do svého účtu</p>
+                    </div>
+
+                    {# Chybová hláška #}
+                    {% if error %}
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            <div>{{ error }}</div>
+                        </div>
+                    {% endif %}
+
+                    <form method="POST" action="/auth/login">
+                        {# Email #}
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-semibold">Email</label>
+                            <div class="input-group">
+                            <span class="input-group-text bg-body-tertiary">
+                                <i class="bi bi-envelope"></i>
+                            </span>
+                                <input name="email" type="text" id="email" class="form-control form-control-lg" placeholder="johndoe@email.com" required autofocus>
+                            </div>
+                        </div>
+
+                        {# Heslo #}
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between">
+                                <label for="password" class="form-label fw-semibold">Heslo</label>
+                            </div>
+                            <div class="input-group">
+                            <span class="input-group-text bg-body-tertiary">
+                                <i class="bi bi-lock"></i>
+                            </span>
+                                <input name="password" type="password" id="password" class="form-control form-control-lg" placeholder="********" required>
+                            </div>
+                        </div>
+
+                        {# Tlačítko #}
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg shadow-sm">
+                                <i class="bi bi-box-arrow-in-right me-2"></i> Přihlásit se
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

@@ -4,7 +4,7 @@ namespace App\Core;
 
 use PDO;
 use PDOException;
-
+// TODO, DI?
 abstract class AbstractDAO
 {
     protected PDO $db;
