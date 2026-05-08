@@ -47,7 +47,7 @@ class ErrorHandler
      */
     public function handleException(Throwable $exception): void
     {
-        $code = $exception->getCode();
+        $code = (int)$exception->getCode();
         // Pojistka, kdyby přišel nevalidní kód (žádný/0, 999, -1 atd.)
         // HTTP status kódy v rozsahu 400–599 jsou vyhrazeny pro chyby
         $status = ($code >= 400 && $code < 600) ? $code : 500;
@@ -57,8 +57,8 @@ class ErrorHandler
         echo $view->render('Error.twig', [
             'error_code' => $status,
             'error_message' => $this->getErrorMessage($exception),
-            //'error_file' => $exception->getFile(),
-            //'error_line' => $exception->getLine(),
+            'error_file' => $exception->getFile(),
+            'error_line' => $exception->getLine(),
         ]);
     }
 
@@ -69,6 +69,7 @@ class ErrorHandler
      */
     public function getErrorMessage(Throwable $exception): string
     {
+        // Debug
         return $exception->getMessage();
 
         if ($exception->getCode() === 500) {
