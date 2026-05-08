@@ -2,11 +2,20 @@
 
 namespace App\Core;
 
+use App\Core\Session;
+
 abstract class AbstractController
 {
+    // Ve výchozím stavu všechny kontrolery vyžadují přihlášení
+    protected bool $requireAuth = true;
+
     public function __construct(
         protected ViewWrapper $view
-    ){}
+    ) {
+        if ($this->requireAuth && !Session::isLoggedIn()) {
+            $this->redirect('/auth/login');
+        }
+    }
 
     protected function redirect(string $url): void
     {

@@ -17,9 +17,7 @@
     <title>{% block title %}Default Title{% endblock %}</title>
 
     {# Zde se načítá Bootstrap CSS #}
-    {# Protože adresář Public je kořenem celého webu (tzv. Document Root), musí se použít absolutní cestu začínající lomítkem (/). #}
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
     <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css' rel="stylesheet">
 
     {# (placeholder pro dodatečné budoucí CSS) #}
@@ -28,51 +26,119 @@
 <body>
 
 {# Navbar/header #}
+{# Navbar/header #}
 {% block header %}
     <header>
         <div class="bg-body-tertiary border-bottom py-2">
             <div class="container d-flex flex-wrap justify-content-between align-items-center">
-                <a class="navbar-brand fw-bold fs-4" href="/">Lorem ipsum</a>
 
+                <!-- 1. ČÁST: Úplně vlevo (Brand) -->
+                <a class="navbar-brand fw-bold fs-4" href="/dashboard">Lorem ipsum</a>
+
+                <!-- 2. ČÁST: Uprostřed (Navigace) -->
+                <ul class="nav">
+                    {% if session.user %}
+                        {% if session.user.role in ['service technician', 'receptionist', 'admin'] %}
+                            <li class="nav-item"><a href="/dashboard" class="nav-link link-body-emphasis px-2">Dashboard</a></li>
+                        {% endif %}
+
+                        {% if session.user.role in ['receptionist', 'admin'] %}
+                            <li class="nav-item"><a href="/invoice/browse" class="nav-link link-body-emphasis px-2">Faktury</a></li>
+                            <li class="nav-item"><a href="/repairs/browse" class="nav-link link-body-emphasis px-2">Záznamy oprav</a></li>
+                        {% endif %}
+
+                        {% if session.user.role in ['service technician', 'admin'] %}
+                            <li class="nav-item"><a href="/repairs/waiting" class="nav-link link-body-emphasis px-2">Opravy ke zpracování</a></li>
+                        {% endif %}
+
+                        {% if session.user.role == 'admin' %}
+                            <li class="nav-item"><a href="/manage/employees" class="nav-link link-body-emphasis px-2">Spravovat</a></li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+
+                <!-- 3. ČÁST: Úplně vpravo (User / Logout) -->
                 <ul class="nav align-items-center">
                     {% if session.user %}
                         <li class="nav-item"><a href="/auth/logout" class="nav-link link-body-emphasis">Odhlásit se</a></li>
-                        <li class="nav-item"> {{ session.user.role }} </li>
+                        <li class="nav-item ms-2 fw-bold"> {{ session.user.role }} </li>
                     {% else %}
                         <li class="nav-item"><a href="/auth/login" class="nav-link link-body-emphasis">Přihlásit</a></li>
                     {% endif %}
                 </ul>
+
             </div>
         </div>
 
-        <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
+        {# Sekudnarni navigace #}
+        {% if session.user %}
+        <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom" id="secondary-nav">
             <div class="container">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="mainNav">
-                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-semibold">
-                        <li class="nav-item">
-                            <a class="nav-link px-3" href="/home/">Domů</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link px-3" href="/program/">Program</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link px-3" href="/publications/">Publikace</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link px-3" href="/contact/">Kontakt</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link px-3" href="/about/">O nás</a>
-                        </li>
-                    </ul>
+                    {# Submenu Faktury #}
+                    {% if session.user.role in ['receptionist', 'admin'] %}
+                        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-semibold d-none" id="nav-invoice">
+                            <li class="nav-item"><a class="nav-link px-3" href="/invoice/browse">Procházet</a></li>
+                            <li class="nav-item"><a class="nav-link px-3" href="/invoice/create">Nová faktura</a></li>
+                        </ul>
+                    {% endif %}
+
+                    {# Submenu Záznamy oprav #}
+                    {% if session.user.role in ['receptionist', 'admin'] %}
+                        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-semibold d-none" id="nav-repairs">
+                            <li class="nav-item"><a class="nav-link px-3" href="/repairs/browse">Procházet</a></li>
+                            <li class="nav-item"><a class="nav-link px-3" href="/repairs/create">Nová oprava</a></li>
+                        </ul>
+                    {% endif %}
+
+                    {# Submenu Spravovat #}
+                    {% if session.user.role == 'admin' %}
+                        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-semibold d-none" id="nav-manage">
+                            <li class="nav-item"><a class="nav-link px-3" href="/manage/employees">Zaměstnanci</a></li>
+                            <li class="nav-item"><a class="nav-link px-3" href="/manage/price-list">Ceník</a></li>
+                            <li class="nav-item"><a class="nav-link px-3" href="/manage/assignments">Přidělování</a></li>
+                        </ul>
+                    {% endif %}
                 </div>
             </div>
         </nav>
+        {% endif %}
     </header>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const path = window.location.pathname;
+
+            const secondaryNav = document.getElementById('secondary-nav');
+            const navDefault = document.getElementById('nav-default');
+            const navInvoice = document.getElementById('nav-invoice');
+            const navRepairs = document.getElementById('nav-repairs');
+            const navManage = document.getElementById('nav-manage');
+
+            // 1. Skrytí druhé navigace pro Dashboard a Procházet opravy (chová se jako dashboard)
+            if (path === '/dashboard' || path === '/repairs/waiting') {
+                if (secondaryNav) secondaryNav.classList.add('d-none');
+                return;
+            }
+
+            // 2. Logika pro zobrazení specifických submenu
+            if (path.startsWith('/invoice') || path.startsWith('/repairs') || path.startsWith('/manage')) {
+                if (navDefault) navDefault.classList.add('d-none');
+            }
+
+            if (path.startsWith('/invoice') && navInvoice) {
+                navInvoice.classList.remove('d-none');
+            } else if (path.startsWith('/repairs') && navRepairs) {
+                navRepairs.classList.remove('d-none');
+            } else if (path.startsWith('/manage') && navManage) {
+                navManage.classList.remove('d-none');
+            }
+        });
+    </script>
 {% endblock %}
 
 {# Hlavní blok pro obsah stránky (přepisuje se vždy) #}

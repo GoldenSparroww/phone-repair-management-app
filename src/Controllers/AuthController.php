@@ -6,9 +6,13 @@ use App\Core\AbstractController;
 use App\Core\ViewWrapper;
 use App\Services\AuthService;
 use App\DTO\UserLoginDTO;
+use App\Core\Session;
 
 final class AuthController extends AbstractController
 {
+    // Tento kontroler je veřejný, nevyžaduje přihlášení
+    protected bool $requireAuth = false;
+
     public function __construct(
         private AuthService $authService,
         protected ViewWrapper $view,
@@ -18,6 +22,11 @@ final class AuthController extends AbstractController
 
     public function login(): void
     {
+        // Pokud už je uživatel přihlášený, nemá smysl mu ukazovat login page
+        if (Session::isLoggedIn()) {
+            $this->redirect('/dashboard');
+        }
+
         $error = null;
 
         if ($this->isPost()) {
@@ -27,7 +36,7 @@ final class AuthController extends AbstractController
             );
 
             if ($this->authService->login($dto)) {
-                $this->redirect('/home/index');
+                $this->redirect('/dashboard');
             }
 
             $error = 'Neplatné přihlašovací údaje';
@@ -39,6 +48,6 @@ final class AuthController extends AbstractController
     public function logout(): void
     {
         $this->authService->logout();
-        $this->redirect('/home/index');
+        $this->redirect('/auth/login');
     }
 }
