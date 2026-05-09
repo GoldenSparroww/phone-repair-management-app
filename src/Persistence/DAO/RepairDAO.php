@@ -55,4 +55,27 @@ class RepairDAO extends AbstractDAO
             'employee_id' => $data['employee_id']
         ]);
     }
+
+    public function getUnassignedRepairs(): array
+    {
+        $sql = "SELECT * FROM repairs WHERE status = 'Nepřiřazená' ORDER BY started ASC";
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
+    }
+
+    public function findByTechnicianAndStatus(int $technicianId, string $status): array
+    {
+        $sql = "SELECT * FROM repairs 
+                WHERE employee_id = :employee_id 
+                AND status = :status 
+                ORDER BY started ASC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            'employee_id' => $technicianId,
+            'status'      => $status
+        ]);
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
+    }
 }

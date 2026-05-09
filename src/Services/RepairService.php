@@ -9,6 +9,7 @@ use App\DTO\NewRepairDTO;
 use App\Persistence\Repository\CustomerRepository;
 use App\Persistence\Repository\DeviceRepository;
 use App\Persistence\Repository\EmployeeRepository;
+use App\Persistence\Repository\PricingRepository;
 use App\Persistence\Repository\RepairRepository;
 use Exception;
 
@@ -18,7 +19,8 @@ class RepairService
         private RepairRepository $repairRepository,
         private CustomerRepository $customerRepository,
         private DeviceRepository $deviceRepository,
-        private EmployeeRepository $employeeRepository
+        private EmployeeRepository $employeeRepository,
+        private PricingRepository $pricingRepository
     ) {}
 
     public function getAllRepairs(): array
@@ -79,5 +81,46 @@ class RepairService
 
         $repair->assignTechnician($technician);
         $this->repairRepository->save($repair);
+    }
+
+    public function getAllTechnicians(): array
+    {
+        return $this->employeeRepository->getAllTechnicians();
+    }
+
+    public function getUnassignedRepairs(): array
+    {
+        return $this->repairRepository->getUnassignedRepairs();
+    }
+
+    // src/Services/RepairService.php
+
+    public function getRepairsForTechnician(int $technicianId): array
+    {
+        return $this->repairRepository->findByTechnicianAndStatus($technicianId, 'Přiřazená');
+    }
+
+    public function submitServiceAction(int $repairId, string $notes, int $pricingId): void
+    {
+        $repair = $this->repairRepository->findById($repairId);
+        $pricing = $this->pricingRepository->findById($pricingId);
+
+        if (!$repair || !$pricing) {
+            throw new \Exception("Oprava nebo položka ceníku nenalezena.");
+        }
+
+        // Provedení business logiky (změna stavu na 'Opravena' přes State Pattern)
+        $repair->finishWork($notes, $pricing);
+
+        // Uložení (včetně notes a price_id do DB)
+        $this->repairRepository->save($repair);
+    }
+
+    /**
+     * Pro potřeby UC06 - Technik vybírá úkon z číselníku
+     */
+    public function getAllPricingItems(): array
+    {
+        return $this->pricingRepository->getAll();
     }
 }

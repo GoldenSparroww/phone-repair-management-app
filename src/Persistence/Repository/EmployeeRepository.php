@@ -28,4 +28,22 @@ class EmployeeRepository
 
         return $employee;
     }
+
+    public function getAllTechnicians(): array
+    {
+        $rows = $this->dao->getAllTechnicians();
+        $technicians = [];
+
+        foreach ($rows as $row) {
+            $employee = new Employee(
+                $row['first_name'],
+                $row['last_name'],
+                $row['role']
+            );
+            $employee->setId((int)$row['id']);
+            $technicians[] = $employee;
+        }
+
+        return $technicians;
+    }
 }

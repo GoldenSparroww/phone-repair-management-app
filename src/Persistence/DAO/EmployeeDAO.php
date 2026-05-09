@@ -20,4 +20,11 @@ class EmployeeDAO extends AbstractDAO
 
         return $result;
     }
+
+    public function getAllTechnicians(): array
+    {
+        $sql = "SELECT * FROM employees WHERE role = 'service technician'";
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Domain\Entity\Repair;
 
 use App\Domain\Entity\Device\Device;
 use App\Domain\Entity\Employee\Employee;
+use App\Domain\Entity\Pricing\Pricing;
 
 class Repair
 {
@@ -14,6 +15,8 @@ class Repair
     private string $startDate = '';
     private string $estimatedEndDate = '';
     private string $description = '';
+    private ?string $notes = null;
+    private ?Pricing $pricing = null;
 
     public function __construct()
     {
@@ -64,4 +67,18 @@ class Repair
 
     public function setDescription(string $description): void { $this->description = $description; }
     public function getDescription(): string { return $this->description; }
+
+    public function setNotes(?string $notes): void { $this->notes = $notes; }
+    public function getNotes(): ?string { return $this->notes; }
+
+    public function setPricing(?Pricing $pricing): void { $this->pricing = $pricing; }
+    public function getPricing(): ?Pricing { return $this->pricing; }
+
+    // Metoda pro dokončení práce (volá State pattern)
+    public function finishWork(string $notes, Pricing $pricing): void
+    {
+        $this->setNotes($notes);
+        $this->setPricing($pricing);
+        $this->state->markAsRepaired($this);
+    }
 }

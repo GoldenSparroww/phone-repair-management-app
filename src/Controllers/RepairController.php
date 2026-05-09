@@ -60,12 +60,63 @@ class RepairController extends AbstractController
         $repair = $this->repairService->getRepairById($repairId);
 
         if (!$repair) {
-            // Pokud oprava neexistuje, vrátíme uživatele zpět
             $this->redirect('/repair/browse');
         }
 
+        // Získání techniků pro roletku ve formuláři přiřazení
+        $technicians = $this->repairService->getAllTechnicians();
+
         echo $this->view->render('RepairsDetail.twig', [
-            'repair' => $repair
+            'repair' => $repair,
+            'technicians' => $technicians
         ]);
+    }
+
+    public function assign(string $id): void
+    {
+        if ($this->isPost()) {
+            $repairId = (int)$id;
+            $employeeId = (int)$this->getPostParam('technician_id');
+
+            try {
+                // Volání doménové logiky, která přesune stav opravy
+                $this->repairService->assignTechnicianToRepair($repairId, $employeeId);
+            } catch (Exception $e) {
+                // Zde lze chybu zpracovat nebo předat do šablony (např. přes session)
+            }
+
+            // Po zpracování přesměrujeme uživatele zpět na detail stejné opravy
+            $this->redirect('/repair/detail/' . $repairId);
+        }
+    }
+
+    public function waiting(): void
+    {
+        // Získání ID přihlášeného technika ze session
+        $user = \App\Core\Session::get('user');
+        $techniciansRepairs = $this->repairService->getRepairsForTechnician($user['id']);
+        $pricingList = $this->repairService->getAllPricingItems();
+
+        echo $this->view->render('RepairsWaiting.twig', [
+            'repairs' => $techniciansRepairs,
+            'pricingList' => $pricingList
+        ]);
+    }
+
+    public function finish(string $id): void
+    {
+        if ($this->isPost()) {
+            try {
+                $this->repairService->submitServiceAction(
+                    (int)$id,
+                    $this->getPostParam('notes'),
+                    (int)$this->getPostParam('price_id')
+                );
+                $this->redirect('/repair/waiting');
+            } catch (\Exception $e) {
+                // Ošetření alternativního scénáře 3b-A (chybějící ceník / chyba validace)
+                $this->redirect('/repair/waiting?error=' . urlencode($e->getMessage()));
+            }
+        }
     }
 }

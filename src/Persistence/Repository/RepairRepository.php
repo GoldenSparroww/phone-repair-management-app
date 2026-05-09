@@ -97,4 +97,33 @@ class RepairRepository
             'Vyfakturována' => new InvoicedState(),
         };
     }
+
+    public function getUnassignedRepairs(): array
+    {
+        $rows = $this->dao->getUnassignedRepairs();
+        $repairs = [];
+
+        foreach ($rows as $row) {
+            $repairs[] = $this->mapRowToEntity($row);
+        }
+
+        return $repairs;
+    }
+
+    /**
+     * Vrátí pole objektů Repair pro daného technika a stav.
+     * @return Repair[]
+     */
+    public function findByTechnicianAndStatus(int $technicianId, string $status): array
+    {
+        $rows = $this->dao->findByTechnicianAndStatus($technicianId, $status);
+        $repairs = [];
+
+        foreach ($rows as $row) {
+            // mapRowToEntity zajistí sestavení objektu včetně Device a Customer
+            $repairs[] = $this->mapRowToEntity($row);
+        }
+
+        return $repairs;
+    }
 }

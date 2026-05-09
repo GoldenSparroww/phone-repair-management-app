@@ -1,0 +1,70 @@
+{% extends "Base.twig" %}
+
+{% block title %}Opravy ke zpracování{% endblock %}
+
+{% block content %}
+    <div class="mb-4">
+        <h2>Opravy ke zpracování</h2>
+        <p class="text-muted">Seznam zakázek, které vám byly přiděleny k vyřízení.</p>
+    </div>
+
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-striped table-hover align-middle mb-0">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Zařízení</th>
+                <th>Zákazník</th>
+                <th>Termín do</th>
+                <th class="text-end">Akce</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for repair in repairs %}
+                <tr>
+                    <td>#{{ repair.id }}</td>
+                    <td><strong>{{ repair.device.brand }} {{ repair.device.model }}</strong></td>
+                    <td>{{ repair.device.customer.firstName }} {{ repair.device.customer.lastName }}</td>
+                    <td>{{ repair.estimatedEndDate|date("d.m.Y") }}</td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#workForm-{{ repair.id }}">
+                            <i class="bi bi-tools"></i> Zapsat úkon
+                        </button>
+                    </td>
+                </tr>
+
+                {# Inline formulář pro UC06 #}
+                <tr class="collapse" id="workForm-{{ repair.id }}">
+                    <td colspan="5" class="p-4">
+                        <form action="/repair/finish/{{ repair.id }}" method="POST" class="row g-3">
+                            <div class="col-md-12">
+                                <label class="form-label fw-bold">Postup práce / Komentář technika</label>
+                                <textarea class="form-control" name="notes" rows="3" placeholder="Popište provedené úkony..." required></textarea>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label fw-bold">Typ opravy (dle ceníku)</label>
+                                <select name="price_id" class="form-select" required>
+                                    <option value="" disabled selected>Vyberte úkon z číselníku...</option>
+                                    {% for item in pricingList %}
+                                        <option value="{{ item.id }}">{{ item.repairType }} ({{ item.minPrice }} - {{ item.maxPrice }} Kč)</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="form-text">Pokud úkon v seznamu není, kontaktujte administrátora.</div>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end justify-content-end">
+                                <button type="submit" class="btn btn-primary px-4">
+                                    <i class="bi bi-check-circle me-1"></i> Dokončit opravu
+                                </button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center py-5 text-muted">Nemáte žádné přidělené opravy k vyřízení.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
