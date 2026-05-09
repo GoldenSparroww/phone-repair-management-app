@@ -46,15 +46,13 @@ class InvoiceController extends AbstractController
     {
         $repair = $this->invoiceService->getRepairById((int)$id);
 
-        // 1. Vyrenderujeme HTML pomocí Twigu, který už máš
         $html = $this->view->render('InvoicePdfTemplate.twig', ['repair' => $repair]);
 
-        // 2. Inicializace Dompdf
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
 
-        // 3. Vygenerování a odeslání do prohlížeče ke stažení
+        // Vygenerování a odeslání do prohlížeče ke stažení
         $dompdf->render();
         $dompdf->stream("faktura-{$id}.pdf", ["Attachment" => true]);
         exit;

@@ -17,7 +17,8 @@ class RepairRepository
         private RepairDAO $dao,
         private RepairBuilder $builder,
         private DeviceRepository $deviceRepository,
-        private EmployeeRepository $employeeRepository
+        private EmployeeRepository $employeeRepository,
+        private PricingRepository $pricingRepository
     ) {}
 
     public function getAllRepairs(): array
@@ -69,7 +70,7 @@ class RepairRepository
 
     private function mapRowToEntity(array $row): Repair
     {
-        // 1. Získání objektu zařízení (které v sobě již má objekt zákazníka)
+        // 1. Získání zařízení
         $device = $this->deviceRepository->findById((int)$row['device_id']);
 
         // 2. Sestavení opravy
@@ -83,13 +84,27 @@ class RepairRepository
         $repair->setId((int)$row['id']);
         $repair->setState($this->mapStatusToState($row['status']));
 
-        // 4. Přiřazení technika, pokud existuje
+        // Nastavení poznámek technika, pokud existují
+        if (isset($row['notes'])) {
+            $repair->setNotes($row['notes']);
+        }
+
+        // 4. Přiřazení technika
         if (!empty($row['employee_id'])) {
             $technician = $this->employeeRepository->findById((int)$row['employee_id']);
             if ($technician) {
                 $repair->setTechnician($technician);
             }
         }
+
+        // 5. Načtení a přiřazení úkonu z ceníku (TOTO PŘIDEJ)
+        if (!empty($row['price_id'])) {
+            $pricing = $this->pricingRepository->findById((int)$row['price_id']);
+            if ($pricing) {
+                $repair->setPricing($pricing);
+            }
+        }
+
 
         return $repair;
     }

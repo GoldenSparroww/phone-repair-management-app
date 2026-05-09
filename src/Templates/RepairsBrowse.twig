@@ -40,52 +40,7 @@
                         <a href="/repair/detail/{{ repair.id }}" class="btn btn-sm btn-outline-info">
                             <i class="bi bi-eye"></i> Detail
                         </a>
-                        {# Tlačítko pro rozbalení skrytého formuláře #}
-                        <button class="btn btn-sm btn-outline-warning ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#editRow-{{ repair.id }}" aria-expanded="false">
-                            <i class="bi bi-pencil"></i> Upravit
-                        </button>
-                    </td>
-                </tr>
 
-                {# Skrytý řádek s formulářem - zobrazí se po kliknutí na Upravit #}
-                <tr class="collapse" id="editRow-{{ repair.id }}">
-                    <td colspan="7" class="p-0 border-bottom-0">
-                        <div class="p-3 border-start border-warning border-4 m-2 rounded">
-                            <form action="/repair/edit/{{ repair.id }}" method="POST" class="row g-3">
-                                <div class="col-md-2">
-                                    <label class="form-label text-muted small mb-0">Telefon</label>
-                                    <input type="text" class="form-control form-control-sm" name="customer_phone" value="{{ repair.device.customer.phone }}" required>
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="form-label text-muted small mb-0">Značka</label>
-                                    <input type="text" class="form-control form-control-sm" name="brand" value="{{ repair.device.brand }}" required>
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="form-label text-muted small mb-0">Model</label>
-                                    <input type="text" class="form-control form-control-sm" name="model" value="{{ repair.device.model }}" required>
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="form-label text-muted small mb-0">SN</label>
-                                    <input type="text" class="form-control form-control-sm" name="serial" value="{{ repair.device.serial }}" required>
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="form-label text-muted small mb-0">Zahájení</label>
-                                    <input type="date" class="form-control form-control-sm" name="start_date" value="{{ repair.startDate }}" required>
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="form-label text-muted small mb-0">Dokončení</label>
-                                    <input type="date" class="form-control form-control-sm" name="end_date" value="{{ repair.estimatedEndDate }}" required>
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label text-muted small mb-0">Popis závady</label>
-                                    <textarea class="form-control form-control-sm" name="description" rows="2" required>{{ repair.description }}</textarea>
-                                </div>
-                                <div class="col-12 text-end">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary me-2" data-bs-toggle="collapse" data-bs-target="#editRow-{{ repair.id }}">Zrušit</button>
-                                    <button type="submit" class="btn btn-sm btn-success"><i class="bi bi-save me-1"></i> Uložit změny</button>
-                                </div>
-                            </form>
-                        </div>
                     </td>
                 </tr>
             {% else %}
