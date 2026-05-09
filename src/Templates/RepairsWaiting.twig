@@ -36,6 +36,14 @@
                 {# Inline formulář pro UC06 #}
                 <tr class="collapse" id="workForm-{{ repair.id }}">
                     <td colspan="5" class="p-4">
+                        <div class="card shadow-sm mt-4 mb-4">
+                            <div class="card-header text-white">
+                                <h5 class="mb-0">Popis závady:</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text" style="white-space: pre-wrap;">{{ repair.description }}</p>
+                            </div>
+                        </div>
                         <form action="/repair/finish/{{ repair.id }}" method="POST" class="row g-3">
                             <div class="col-md-12">
                                 <label class="form-label fw-bold">Postup práce / Komentář technika</label>

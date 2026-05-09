@@ -67,7 +67,6 @@ class RepairController extends AbstractController
         // Získání techniků pro roletku ve formuláři přiřazení
         $technicians = $this->repairService->getAllTechnicians();
 
-        var_dump($repair);
         echo $this->view->render('RepairsDetail.twig', [
             'repair' => $repair,
             'technicians' => $technicians

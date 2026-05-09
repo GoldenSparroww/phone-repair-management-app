@@ -16,12 +16,12 @@ class DashboardController extends AbstractController
 
     public function index(): void
     {
-        $today = date('Y-m-d');
-        $lastWeek = date('Y-m-d', strtotime('-7 days'));
+        $countWeek = date('Y-m-d', strtotime('-7 days'));
+        $lastYear = date('Y-m-d', strtotime('-356 days'));
 
         echo $this->view->render('Dashboard.twig', [
-            'countToday' => $this->repairService->getRepairsCountSince($today),
-            'countWeek'  => $this->repairService->getRepairsCountSince($lastWeek)
+            'countWeek' => $this->repairService->getRepairsCountSince($countWeek),
+            'countYear'  => $this->repairService->getRepairsCountSince($lastYear)
         ]);
     }
 }

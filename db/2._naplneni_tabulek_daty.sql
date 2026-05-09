@@ -68,21 +68,24 @@ values
     (13, 'Oppo', 'Find X3', 'SN345679', 2),
     (14, 'OnePlus', '8', 'SN345679', 5);
 
+INSERT INTO `invoices` (`id`, `issued`, `due`, `method`, `customer_id`) VALUES
+    (1, '2026-05-09', '2026-05-23', 'Kartou', 3),
+    (2, '2026-05-09', '2026-05-23', 'Hotově', 1);
 
-insert into repairs (started, expected_end, description, notes, employee_id, invoice_id, price_id, device_id)
+insert into repairs (started, expected_end, description, notes, employee_id, invoice_id, price_id, device_id, status)
 values
-    ('2024-02-01', '2024-02-10', 'Pravděpodbně poškozená flexa', null, null, null, null, 1),
-    ('2024-02-02', '2024-02-11', 'Zanesené konektory, nenabíjí se', null, null, null, null, 2),
-    ('2024-02-03', '2024-02-12', 'Prasklý zadní kryt', null, null, null, null, 3),
-    ('2024-02-04', '2024-02-13', 'Nefunkční reproduktor', null, null, null, null, 4),
-    ('2024-02-05', '2024-02-14', 'Prasklý zadní kryt', null, null, null, null, 5),
-    ('2024-02-06', '2024-02-15', 'Nefunkční reproduktor', null, null, null, null, 6),
-    ('2024-02-07', '2024-02-16', 'Ztracená data do mylném smazání (interní paměť)', null, null, null, null, 7),
-    ('2024-02-08', '2024-02-17', 'Rozbitá zadní kamera', null, null, null, null, 8),
-    ('2024-02-09', '2024-02-18', 'Špatné rozložení barev v systému, vyžadován downgrade', null, null, null, null, 9),
-    ('2024-02-10', '2024-02-19', 'Rozbitá zadní kamera', null, null, null, null, 10),
-    ('2024-02-01', '2024-02-10', 'Pravděpodbně poškozená flexa', null, null, null, null, 11),
-    ('2024-02-12', '2024-02-21', 'Zanesené konektory', null, null, null, null, 12),
-    ('2024-02-13', '2024-02-22', 'Zanesené konektory', null, null, null, null, 13),
-    ('2024-02-03', '2024-02-12', 'Rozbitá zadní kamera', null, null, null, null, 3),
-    ('2024-02-10', '2024-02-24', 'Zanesené konektory', null, null, null, null, 5);
+    ('2026-04-10', '2026-04-19', 'Pravděpodbně poškozená flexa', null, null, null, null, 1, 'Nepřiřazená'),
+    ('2026-04-11', '2026-04-20', 'Zanesené konektory, nenabíjí se', 'Provedl jsem kompletní revizi konektorů, a vyčistil jack 3.5. Ostatní bylo v pořádku. Navíc jsem vyčistil i rohy a okraje. Nabíjení už funguje také, tam nebylo třeba hlubší čištění.', 101, 1, 3001, 2, 'Vyfakturována'),
+    ('2026-04-12', '2026-04-21', 'Prasklý zadní kryt', 'Telefon měl více problémů, než jen zadní kryt. Celá spodní část základní desky byla poškozená, takže kromě výměny zadního krytu byla přidána i celá nový základní deska.', 101, 2, 1006, 3, 'Vyfakturována'),
+    ('2026-04-13', '2026-04-22', 'Nefunkční reproduktor', 'Stačilo jen vyčistit', 101, null, 3001, 4, 'Opravena'),
+    ('2026-04-14', '2026-04-23', 'Prasklý zadní kryt', null, 101, null, null, 5, 'Přiřazená'),
+    ('2026-04-15', '2026-04-24', 'Nefunkční reproduktor', null, 101, null, null, 6, 'Přiřazená'),
+    ('2026-04-16', '2026-04-25', 'Ztracená data do mylném smazání (interní paměť)', null, null, null, null, 7, 'Nepřiřazená'),
+    ('2026-04-17', '2026-04-26', 'Rozbitá zadní kamera', null, null, null, null, 8, 'Nepřiřazená'),
+    ('2026-04-18', '2026-04-27', 'Špatné rozložení barev v systému, vyžadován downgrade', null, null, null, null, 9, 'Nepřiřazená'),
+    ('2026-04-19', '2026-04-28', 'Rozbitá zadní kamera', null, null, null, null, 10, 'Nepřiřazená'),
+    ('2026-04-20', '2026-04-29', 'Pravděpodbně poškozená flexa', null, null, null, null, 11, 'Nepřiřazená'),
+    ('2026-04-21', '2026-04-30', 'Zanesené konektory', null, 106, null, null, 12, 'Přiřazená'),
+    ('2026-04-22', '2026-05-01', 'Zanesené konektory', null, 106, null, null, 13, 'Přiřazená'),
+    ('2026-04-23', '2026-05-02', 'Rozbitá zadní kamera', null, null, null, null, 3, 'Nepřiřazená'),
+    ('2026-04-24', '2026-05-08', 'Zanesené konektory', null, null, null, null, 5, 'Nepřiřazená');
