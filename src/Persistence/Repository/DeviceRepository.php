@@ -3,6 +3,7 @@
 namespace App\Persistence\Repository;
 
 use App\Domain\Entity\Device\Device;
+use App\Domain\Entity\Repair\Repair;
 use App\Persistence\DAO\DeviceDAO;
 use Exception;
 
@@ -10,7 +11,7 @@ class DeviceRepository
 {
     public function __construct(
         private DeviceDAO $dao,
-        private CustomerRepository $customerRepository
+        private CustomerRepository $customerRepository,
     ) {}
 
     public function findBySerial(string $serial): ?Device
@@ -52,5 +53,19 @@ class DeviceRepository
         $device->setId((int)$row['id']);
 
         return $device;
+    }
+
+    public function save(Device $device): void
+    {
+        if ($device->getId() === null) {
+            $id = $this->dao->insert([
+                'brand' => $device->getBrand(),
+                'model' => $device->getModel(),
+                'serial' => $device->getSerial(),
+                'customer_id' => $device->getCustomer()->getId()
+            ]);
+
+            $device->setId($id);
+        }
     }
 }

@@ -53,4 +53,19 @@ class RepairController extends AbstractController
 
         echo $this->view->render('RepairsCreate.twig');
     }
+
+    public function detail(string $id): void
+    {
+        $repairId = (int)$id;
+        $repair = $this->repairService->getRepairById($repairId);
+
+        if (!$repair) {
+            // Pokud oprava neexistuje, vrátíme uživatele zpět
+            $this->redirect('/repair/browse');
+        }
+
+        echo $this->view->render('RepairsDetail.twig', [
+            'repair' => $repair
+        ]);
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Domain\Entity\Device\Device;
+use App\Domain\Entity\Repair\Repair;
 use App\Domain\Entity\Repair\RepairBuilder;
 use App\DTO\NewRepairDTO;
 use App\Persistence\Repository\CustomerRepository;
@@ -24,6 +26,11 @@ class RepairService
         return $this->repairRepository->getAllRepairs();
     }
 
+    public function getRepairById(int $id): ?Repair
+    {
+        return $this->repairRepository->findById($id);
+    }
+
     public function createNewRepair(NewRepairDTO $dto): void
     {
         // 1. Získání existujícího zákazníka podle telefonu
@@ -35,12 +42,15 @@ class RepairService
         // 2. Získání existujícího zařízení podle sériového čísla
         $device = $this->deviceRepository->findBySerial($dto->serial);
         if (!$device) {
-            throw new Exception("Zařízení se sériovým číslem {$dto->serial} nebylo nalezeno.");
-        }
-
-        // Kontrola, zda nalezené zařízení opravdu patří nalezenému zákazníkovi
-        if ($device->getCustomer()->getId() !== $customer->getId()) {
-            throw new Exception("Toto zařízení nepatří zadanému zákazníkovi.");
+            // Zařízení neexistuje -> vytvoříme ho
+            $device = new Device($dto->brand, $dto->model, $dto->serial, $customer);
+            // Uložení do DB (tím se vygeneruje a do objektu zapíše ID)
+            $this->deviceRepository->save($device);
+        } else {
+            // Zařízení existuje -> zkontrolujeme, zda patří tomuto zákazníkovi
+            if ($device->getCustomer()->getId() !== $customer->getId()) {
+                throw new Exception("Zařízení se {$dto->serial} je již evidováno u jiného zákazníka.");
+            }
         }
 
         // 3. Sestavení opravy

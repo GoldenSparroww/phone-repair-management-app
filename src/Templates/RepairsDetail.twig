@@ -1,0 +1,91 @@
+{% extends "Base.twig" %}
+
+{% block title %}Detail opravy #{{ repair.id }}{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Detail opravy #{{ repair.id }}</h2>
+        <a href="/repair/browse" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i> Zpět na přehled
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Popis závady</h5>
+                </div>
+                <div class="card-body">
+                    {# Zde se vypisuje atribut description z entity Repair #}
+                    <p class="card-text" style="white-space: pre-wrap;">{{ repair.description }}</p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0">Informace o zařízení</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless mb-0">
+                        <tbody>
+                        <tr>
+                            <th scope="row" class="w-25">Značka:</th>
+                            <td>{{ repair.device.brand }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Model:</th>
+                            <td>{{ repair.device.model }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Sériové číslo:</th>
+                            <td>{{ repair.device.serial }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Stav a termíny</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <strong>Aktuální stav:</strong><br>
+                        <span class="badge bg-secondary fs-6 mt-1">{{ repair.state.statusName }}</span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Datum přijetí:</strong><br>
+                        {{ repair.startDate|date("d.m.Y") }}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Předpokládané dokončení:</strong><br>
+                        {{ repair.estimatedEndDate|date("d.m.Y") }}
+                    </div>
+                    <div>
+                        <strong>Přiřazený technik:</strong><br>
+                        {% if repair.technician %}
+                            {{ repair.technician.firstName }} {{ repair.technician.lastName }}
+                        {% else %}
+                            <span class="text-muted">Nepřiřazeno</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0">Zákazník</h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-1"><strong>{{ repair.device.customer.firstName }} {{ repair.device.customer.lastName }}</strong></p>
+                    <p class="mb-1"><i class="bi bi-telephone me-2"></i>{{ repair.device.customer.phone }}</p>
+                    <p class="mb-0"><i class="bi bi-envelope me-2"></i>{{ repair.device.customer.email }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
