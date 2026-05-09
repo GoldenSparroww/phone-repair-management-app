@@ -7,6 +7,10 @@ use App\Core\ViewWrapper;
 use App\Services\RepairService;
 use Exception;
 
+/**
+ * Kontroler pro administrátorské operace s opravami.
+ * Zpracovává HTTP požadavky pro zobrazení nepřiřazených oprav a jejich přidělování servisním technikům.
+ */
 class ManageController extends AbstractController
 {
     public function __construct(

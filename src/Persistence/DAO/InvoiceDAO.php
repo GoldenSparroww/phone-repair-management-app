@@ -4,6 +4,10 @@ namespace App\Persistence\DAO;
 
 use App\Core\AbstractDAO;
 
+/**
+ * Data Access Object pro tabulku invoices.
+ * Zajišťuje přímou komunikaci s databází a provádění SQL dotazů pro záznamy o fakturách.
+ */
 class InvoiceDAO extends AbstractDAO
 {
     public function insert(array $data): int

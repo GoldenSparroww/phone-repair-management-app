@@ -8,6 +8,10 @@ use App\Persistence\Repository\InvoiceRepository;
 use App\Persistence\Repository\RepairRepository;
 use Exception;
 
+/**
+ * Služba zapouzdřující obchodní logiku fakturace.
+ * Zajišťuje proces propojení dokončené opravy s nově vytvořenou fakturou a manipulaci se stavy.
+ */
 class InvoiceService
 {
     public function __construct(

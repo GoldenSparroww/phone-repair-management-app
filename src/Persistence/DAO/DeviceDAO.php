@@ -4,6 +4,10 @@ namespace App\Persistence\DAO;
 
 use App\Core\AbstractDAO;
 
+/**
+ * Data Access Object pro tabulku devices.
+ * Zajišťuje přímou komunikaci s databází a provádění SQL dotazů pro záznamy o zařízeních.
+ */
 class DeviceDAO extends AbstractDAO
 {
     public function findBySerial(string $serial): ?array

@@ -5,6 +5,10 @@ namespace App\Domain\Entity\Device;
 
 use App\Domain\Entity\Customer\Customer;
 
+/**
+ * Doménová entita reprezentující zařízení zákazníka.
+ * Uchovává informace o hardwaru (značka, model, sériové číslo) a odkazuje na svého vlastníka (Customer).
+ */
 class Device
 {
     private ?int $id = null;

@@ -13,6 +13,10 @@ use App\Persistence\Repository\PricingRepository;
 use App\Persistence\Repository\RepairRepository;
 use Exception;
 
+/**
+ * Hlavní služba pro správu oprav (Fasáda).
+ * Orchetruje procesy vytváření, přiřazování a dokončování oprav prostřednictvím doménových entit a příslušných repozitářů.
+ */
 class RepairService
 {
     public function __construct(

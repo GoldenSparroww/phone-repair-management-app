@@ -5,6 +5,10 @@ namespace App\Domain\Entity\Repair;
 use App\Domain\Entity\Employee\Employee;
 use Exception;
 
+/**
+ * Konkrétní implementace návrhového vzoru State.
+ * Reprezentuje nově vytvořenou opravu, která čeká na přiřazení technikovi.
+ */
 class UnassignedState implements RepairStateInterface
 {
     public function assignTechnician(Repair $repair, Employee $technician): void

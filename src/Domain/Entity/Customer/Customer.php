@@ -1,6 +1,10 @@
 <?php
 namespace App\Domain\Entity\Customer;
 
+/**
+ * Doménová entita reprezentující zákazníka.
+ * Obsahuje kontaktní a adresní údaje nezbytné pro evidenci a fakturaci.
+ */
 class Customer
 {
     private ?int $id = null;

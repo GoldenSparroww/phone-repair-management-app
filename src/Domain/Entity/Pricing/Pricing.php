@@ -1,6 +1,10 @@
 <?php
 namespace App\Domain\Entity\Pricing;
 
+/**
+ * Doménová entita reprezentující položku ceníku.
+ * Definuje typ servisního úkonu a jeho cenové rozpětí.
+ */
 class Pricing
 {
     private ?int $id = null;

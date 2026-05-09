@@ -5,6 +5,10 @@ namespace App\Persistence\Repository;
 use App\Domain\Entity\Invoice\Invoice;
 use App\Persistence\DAO\InvoiceDAO;
 
+/**
+ * Repozitář pro entitu Invoice.
+ * Převádí relační data z InvoiceDAO na doménové objekty a zajišťuje zápis nových faktur.
+ */
 class InvoiceRepository
 {
     public function __construct(

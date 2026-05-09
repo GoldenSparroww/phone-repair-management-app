@@ -5,6 +5,10 @@ namespace App\Persistence\Repository;
 use App\Domain\Entity\Customer\Customer;
 use App\Persistence\DAO\CustomerDAO;
 
+/**
+ * Repozitář pro entitu Customer.
+ * Převádí relační data z CustomerDAO na doménové objekty a zajišťuje ukládání změn zpět do databáze.
+ */
 class CustomerRepository
 {
     public function __construct(

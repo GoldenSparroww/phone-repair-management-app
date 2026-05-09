@@ -3,6 +3,10 @@ namespace App\Domain\Entity\Employee;
 
 use Exception;
 
+/**
+ * Doménová entita reprezentující zaměstnance.
+ * Definuje pracovníky systému a jejich role (např. servisní technik, administrátor).
+ */
 class Employee
 {
     private ?int $id = null;

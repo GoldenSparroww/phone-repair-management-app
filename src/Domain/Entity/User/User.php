@@ -2,6 +2,10 @@
 
 namespace App\Domain\Entity\User;
 
+/**
+ * Doménová entita reprezentující přihlášeného uživatele v systému.
+ * Uchovává autentizační data a autorizační údaje nezbytné pro řízení přístupu.
+ */
 class User
 {
     public function __construct(

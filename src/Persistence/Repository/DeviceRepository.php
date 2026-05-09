@@ -7,6 +7,10 @@ use App\Domain\Entity\Repair\Repair;
 use App\Persistence\DAO\DeviceDAO;
 use Exception;
 
+/**
+ * Repozitář pro entitu Device.
+ * Převádí relační data z DeviceDAO na doménové objekty. Řeší závislosti na entitě Customer.
+ */
 class DeviceRepository
 {
     public function __construct(

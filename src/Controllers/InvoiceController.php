@@ -9,6 +9,10 @@ use App\Services\RepairService;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
+/**
+ * Kontroler pro správu fakturace.
+ * Zpracovává HTTP požadavky pro výběr oprav k fakturaci, vystavení faktury a generování PDF dokumentů ke stažení.
+ */
 class InvoiceController extends AbstractController
 {
     public function __construct(

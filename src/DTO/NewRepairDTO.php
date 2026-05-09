@@ -2,6 +2,10 @@
 
 namespace App\DTO;
 
+/**
+ * Datový přenosový objekt (DTO) pro vytvoření nebo úpravu opravy.
+ * Slouží k bezpečnému předání dat z uživatelského rozhraní do servisní vrstvy bez vazby na HTTP požadavek.
+ */
 class NewRepairDTO
 {
     public function __construct(

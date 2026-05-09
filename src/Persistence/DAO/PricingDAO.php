@@ -5,6 +5,10 @@ namespace App\Persistence\DAO;
 use App\Core\AbstractDAO;
 use PDO;
 
+/**
+ * Data Access Object pro tabulku pricing.
+ * Zajišťuje přímou komunikaci s databází a provádění SQL dotazů pro položky ceníku.
+ */
 class PricingDAO extends AbstractDAO
 {
     public function getAll(): array

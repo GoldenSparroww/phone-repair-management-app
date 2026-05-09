@@ -6,6 +6,10 @@ use App\Core\Session;
 use App\DTO\UserLoginDTO;
 use App\Persistence\Repository\UserRepository;
 
+/**
+ * Služba zapouzdřující obchodní logiku autentizace.
+ * Ověřuje přihlašovací údaje a inicializuje uživatelskou relaci.
+ */
 class AuthService
 {
     public function __construct(

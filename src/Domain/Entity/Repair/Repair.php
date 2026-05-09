@@ -6,6 +6,11 @@ use App\Domain\Entity\Device\Device;
 use App\Domain\Entity\Employee\Employee;
 use App\Domain\Entity\Pricing\Pricing;
 
+/**
+ * Doménová entita reprezentující servisní zakázku (opravu).
+ * Funguje jako kontext pro návrhový vzor State. Uchovává referenci na aktuální stav,
+ * deleguje na něj operace měnící stav a obsahuje odkazy na zařízení, technika a fakturaci.
+ */
 class Repair
 {
     private ?int $id = null;

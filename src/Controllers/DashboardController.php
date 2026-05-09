@@ -5,6 +5,10 @@ use App\Core\AbstractController;
 use App\Core\ViewWrapper;
 use App\Services\RepairService;
 
+/**
+ * Kontroler pro hlavní přehled (dashboard).
+ * Zajišťuje agregaci základních statistik a jejich zobrazení na úvodní obrazovce.
+ */
 class DashboardController extends AbstractController
 {
     public function __construct(

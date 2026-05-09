@@ -5,6 +5,10 @@ namespace App\Domain\Entity\Repair;
 use App\Domain\Entity\Employee\Employee;
 use Exception;
 
+/**
+ * Konkrétní implementace návrhového vzoru State.
+ * Reprezentuje dokončenou opravu, u které technik vyplnil servisní úkon a která čeká na fakturaci.
+ */
 class RepairedState implements RepairStateInterface
 {
     public function assignTechnician(Repair $repair, Employee $technician): void

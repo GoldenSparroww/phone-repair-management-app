@@ -4,6 +4,10 @@ namespace App\Domain\Entity\Invoice;
 
 use App\Domain\Entity\Customer\Customer;
 
+/**
+ * Doménová entita reprezentující vystavenou fakturu.
+ * Obsahuje údaje o datu vystavení, splatnosti, způsobu platby a vazbu na zákazníka.
+ */
 class Invoice
 {
     private ?int $id = null;

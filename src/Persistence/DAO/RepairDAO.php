@@ -4,6 +4,10 @@ namespace App\Persistence\DAO;
 
 use App\Core\AbstractDAO;
 
+/**
+ * Data Access Object pro tabulku repairs.
+ * Zajišťuje přímou komunikaci s databází a provádění SQL dotazů pro servisní zakázky.
+ */
 class RepairDAO extends AbstractDAO
 {
     public function getAllRepairs(): array

@@ -4,6 +4,10 @@ namespace App\Persistence\DAO;
 
 use App\Core\AbstractDAO;
 
+/**
+ * Data Access Object pro tabulku customers.
+ * Zajišťuje přímou komunikaci s databází a provádění SQL dotazů pro záznamy o zákaznících.
+ */
 class CustomerDAO extends AbstractDAO
 {
     public function findByPhone(string $phone): ?array

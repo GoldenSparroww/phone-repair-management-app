@@ -6,6 +6,10 @@ use App\Domain\Entity\User\User;
 use App\Domain\Entity\User\UserRole;
 use App\Persistence\DAO\UserDAO;
 
+/**
+ * Repozitář pro entitu User.
+ * Zajišťuje načítání a instancování objektů uživatelů pro potřeby ověření přístupu.
+ */
 class UserRepository
 {
     public function __construct(

@@ -4,6 +4,10 @@ namespace App\Persistence\DAO;
 
 use App\Core\AbstractDAO;
 
+/**
+ * Data Access Object pro tabulku employees.
+ * Zajišťuje přímou komunikaci s databází a provádění SQL dotazů pro záznamy o zaměstnancích.
+ */
 class EmployeeDAO extends AbstractDAO
 {
     public function findById(int $id): ?array

@@ -11,6 +11,10 @@ use App\Domain\Entity\Repair\RepairStateInterface;
 use App\Domain\Entity\Repair\UnassignedState;
 use App\Persistence\DAO\RepairDAO;
 
+/**
+ * Repozitář pro entitu Repair.
+ * Komplexně sestavuje doménové objekty oprav z databáze a ukládá je. Využívá RepairBuilder a začleňuje související entity.
+ */
 class RepairRepository
 {
     public function __construct(

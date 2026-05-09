@@ -4,6 +4,10 @@ namespace App\Domain\Entity\Repair;
 
 use App\Domain\Entity\Device\Device;
 
+/**
+ * Třída implementující návrhový vzor Builder.
+ * Slouží ke krokovému a bezpečnému sestavení komplexního objektu Repair včetně jeho závislostí.
+ */
 class RepairBuilder
 {
     private Repair $repair;

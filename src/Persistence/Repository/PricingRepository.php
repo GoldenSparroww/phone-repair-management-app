@@ -5,6 +5,10 @@ namespace App\Persistence\Repository;
 use App\Domain\Entity\Pricing\Pricing;
 use App\Persistence\DAO\PricingDAO;
 
+/**
+ * Repozitář pro entitu Pricing.
+ * Převádí relační data z PricingDAO na doménové objekty ceníku.
+ */
 class PricingRepository
 {
     public function __construct(

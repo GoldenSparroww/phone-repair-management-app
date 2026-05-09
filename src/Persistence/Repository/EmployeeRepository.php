@@ -5,6 +5,10 @@ namespace App\Persistence\Repository;
 use App\Domain\Entity\Employee\Employee;
 use App\Persistence\DAO\EmployeeDAO;
 
+/**
+ * Repozitář pro entitu Employee.
+ * Převádí relační data z EmployeeDAO na doménové objekty zaměstnanců.
+ */
 class EmployeeRepository
 {
     public function __construct(

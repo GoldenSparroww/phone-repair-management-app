@@ -8,6 +8,10 @@ use App\DTO\NewRepairDTO;
 use App\Services\RepairService;
 use Exception;
 
+/**
+ * Kontroler pro správu životního cyklu oprav.
+ * Zpracovává HTTP požadavky pro vytváření, výpis, detailní zobrazení a zápis servisních úkonů technikem.
+ */
 class RepairController extends AbstractController
 {
     public function __construct(

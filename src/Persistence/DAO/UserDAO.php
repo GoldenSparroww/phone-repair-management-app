@@ -4,6 +4,10 @@ namespace App\Persistence\DAO;
 
 use App\Core\AbstractDAO;
 
+/**
+ * Data Access Object pro tabulku uživatelů.
+ * Zajišťuje přímou komunikaci s databází a provádění SQL dotazů nutných pro autentizaci.
+ */
 class UserDAO extends AbstractDAO
 {
     public function findByEmail(string $email): ?array
