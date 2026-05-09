@@ -2,8 +2,6 @@
 
 namespace App\Core;
 
-use App\Core\Session;
-
 abstract class AbstractController
 {
     // Ve výchozím stavu všechny kontrolery vyžadují přihlášení

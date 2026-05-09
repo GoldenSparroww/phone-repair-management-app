@@ -4,9 +4,6 @@ namespace App\Core;
 use App\Core\Helpers;
 use Dotenv\Dotenv;
 
-/**
- * Třída zajišťující a obalující práci se soubory .env
- */
 class EnvHandler {
     /**
      * Načte .env soubor do aplikace

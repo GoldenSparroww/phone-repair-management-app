@@ -4,16 +4,36 @@ namespace App\Core;
 use ReflectionClass;
 use Exception;
 
+/**
+ * Třída DIContainer zajišťuje správu závislostí a jejich automatické vkládání (Dependency Injection).
+ * Podporuje manuální registraci továren i automatické řešení závislostí pomocí reflexe (Autowiring).
+ */
 class DIContainer
 {
     private array $entries = [];
-    private array $instances = []; // Cache pro Singletony
+    private array $instances = []; // Cache pro Singletony (zatím se nepoužívá)
 
+    /**
+     * Ručně zaregistruje tovární funkci pro konkrétní identifikátor.
+     * * @param string $id Plně kvalifikovaný název třídy nebo identifikátor služby.
+     * @param callable $factory Funkce, která přijímá instanci kontejneru a vrací vytvořený objekt.
+     * @return void
+     */
     public function set(string $id, callable $factory): void
     {
         $this->entries[$id] = $factory;
     }
 
+    /**
+     * Získá instanci požadované třídy nebo služby.
+     * * Postupně se pokouší o:
+     * 1. Vrácení již existující instance z mezipaměti.
+     * 2. Spuštění zaregistrované tovární funkce.
+     * 3. Automatické vytvoření instance pomocí reflexe (Autowiring).
+     * * @param string $id Plně kvalifikovaný název třídy nebo identifikátor služby.
+     * @return mixed Výsledná instance požadované třídy.
+     * @throws Exception Pokud třídu nelze instancovat nebo nelze vyřešit její závislosti.
+     */
     public function get(string $id)
     {
         // 1. Pokud už máme hotovou instanci (Singleton), vrátíme ji
@@ -30,6 +50,14 @@ class DIContainer
         return $this->instances[$id] = $this->autowire($id);
     }
 
+    /**
+     * Vytvoří instanci třídy analýzou parametrů jejího konstruktoru.
+     * * Metoda rekurzivně volá metodu get() pro každý parametr konstruktoru,
+     * který je definován typem třídy.
+     * * @param string $id Plně kvalifikovaný název třídy.
+     * @return object Nová instance požadované třídy.
+     * @throws Exception Pokud třída neexistuje, není instancovatelná nebo má v konstruktoru vestavěný typ (string, int atd.).
+     */
     private function autowire(string $id)
     {
         $reflection = new ReflectionClass($id);
@@ -63,6 +91,11 @@ class DIContainer
         return $reflection->newInstanceArgs($dependencies);
     }
 
+    /**
+     * Ověří, zda je kontejner schopen poskytnout instanci daného identifikátoru.
+     * * @param string $id Plně kvalifikovaný název třídy nebo identifikátor služby.
+     * @return bool Vrací true, pokud existuje tovární funkce nebo třída v systému.
+     */
     public function has(string $id): bool
     {
         return isset($this->entries[$id]) || class_exists($id);

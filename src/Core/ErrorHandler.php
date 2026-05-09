@@ -25,15 +25,6 @@ class ErrorHandler
         set_exception_handler([$this, 'handleException']);
     }
 
-    /**
-     * Tato metoda má za úkol převést běžné jednodušší chyby na širší typ chyby, čímž mohu poté zachytávání centralizovat jedním způsobem.
-     * @param int $errno úroveň chyby (dodáno automaticky, pokud vůbec)
-     * @param string $errstr chybová zpráva, popis
-     * @param string $errfile soubor chyby, název a cesta
-     * @param int $errline (řádek chyby)
-     * @return void
-     * @throws ErrorException vyhodí vždy, transformaci zachycené výjimky
-     */
     //Převod běžných chyb a varování na výjimky (např. Undefined variable $as)
     public function handleError(int $errno, string $errstr, string $errfile, int $errline): void
     {
@@ -57,8 +48,8 @@ class ErrorHandler
         echo $view->render('Error.twig', [
             'error_code' => $status,
             'error_message' => $this->getErrorMessage($exception),
-            'error_file' => $exception->getFile(),
-            'error_line' => $exception->getLine(),
+            //'error_file' => $exception->getFile(),
+            //'error_line' => $exception->getLine(),
         ]);
     }
 
@@ -70,7 +61,7 @@ class ErrorHandler
     public function getErrorMessage(Throwable $exception): string
     {
         // Debug
-        return $exception->getMessage();
+        //return $exception->getMessage();
 
         if ($exception->getCode() === 500) {
             return "Interní chyba serveru.";
