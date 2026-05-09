@@ -48,4 +48,23 @@ class CustomerRepository
 
         return $customer;
     }
+
+    public function save(Customer $customer): void
+    {
+        if ($customer->getId() === null) {
+            $id = $this->dao->insert([
+                'first_name' => $customer->getFirstName(),
+                'last_name'  => $customer->getLastName(),
+                'phone'      => $customer->getPhone(),
+                'email'      => $customer->getEmail(),
+                'city'       => $customer->getCity(),
+                'street'     => $customer->getStreet(),
+                'house_no'   => $customer->getHouseNo(),
+                'zip'        => $customer->getZip()
+            ]);
+            $customer->setId($id);
+        } else {
+            throw new \Exception('Error!');
+        }
+    }
 }

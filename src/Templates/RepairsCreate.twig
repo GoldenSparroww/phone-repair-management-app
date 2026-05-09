@@ -16,11 +16,14 @@
                         {# Zákazník #}
                         <h5 class="mb-3 border-bottom pb-2 text-primary">Informace o zákazníkovi</h5>
                         <div class="mb-4 row">
-                            <div class="col-md-6">
-                                <label for="customerPhone" class="form-label fw-semibold">Telefonní číslo</label>
-                                <input type="tel" class="form-control" id="customerPhone" name="customer_phone" required placeholder="+420 ...">
-                                <div class="form-text">Zadejte existující telefonní číslo zákazníka.</div>
+                            <label class="form-label">Telefon zákazníka</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="customer_phone" placeholder="Zadejte telefon zákazníka..." required>
+                                <a href="/customer/create" class="btn btn-outline-primary">
+                                    <i class="bi bi-person-plus-fill"></i> Nový
+                                </a>
                             </div>
+                            <div class="form-text">Pokud zákazník neexistuje, klikněte na tlačítko Nový.</div>
                         </div>
 
                         {# Zařízení #}
