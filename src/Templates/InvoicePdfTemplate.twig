@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: DejaVu Sans, sans-serif; font-size: 12px; color: #333; }
+        .header { border-bottom: 2px solid #444; padding-bottom: 10px; margin-bottom: 20px; }
+        .section { margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 8px; border-bottom: 1px solid #ddd; text-align: left; }
+        .total { font-size: 16px; font-weight: bold; text-align: right; margin-top: 20px; }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>FAKTURA - DAŇOVÝ DOKLAD</h1>
+    <p>Číslo faktury: {{ repair.id }}</p>
+</div>
+
+<div class="section">
+    <strong>Odběratel:</strong><br>
+    {{ repair.device.customer.firstName }} {{ repair.device.customer.lastName }}<br>
+    {{ repair.device.customer.phone }}
+</div>
+
+<div class="section">
+    <strong>Předmět opravy:</strong> {{ repair.device.brand }} {{ repair.device.model }} (SN: {{ repair.device.serial }})
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Popis úkonu</th>
+        <th>Cena</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{ repair.pricing.repairType }}</td>
+        <td>{{ repair.pricing.maxPrice }} Kč</td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="total">
+    Celkem k úhradě: {{ repair.pricing.maxPrice }} Kč
+</div>
+</body>
+</html>

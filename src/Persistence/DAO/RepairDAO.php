@@ -93,4 +93,23 @@ class RepairDAO extends AbstractDAO
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
     }
+
+    public function linkInvoice(int $repairId, int $invoiceId): void
+    {
+        $sql = "UPDATE repairs SET invoice_id = :invoice_id WHERE id = :id";
+
+        $this->db->prepare($sql)->execute([
+            'invoice_id' => $invoiceId,
+            'id'         => $repairId
+        ]);
+    }
+
+    public function findByStatus(string $status): array
+    {
+        $sql = "SELECT * FROM repairs WHERE status = :status ORDER BY id DESC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['status' => $status]);
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
+    }
 }

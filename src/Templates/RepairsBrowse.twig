@@ -32,6 +32,11 @@
                         <span class="badge bg-secondary">{{ repair.state.statusName }}</span>
                     </td>
                     <td class="text-end">
+                        {% if repair.state.statusName == 'Vyfakturována' %}
+                            <a href="/invoice/download/{{ repair.id }}" class="btn btn-sm btn-dark">
+                                <i class="bi bi-file-earpdf"></i> PDF
+                            </a>
+                        {% endif %}
                         <a href="/repair/detail/{{ repair.id }}" class="btn btn-sm btn-outline-info">
                             <i class="bi bi-eye"></i> Detail
                         </a>

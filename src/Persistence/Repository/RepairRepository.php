@@ -132,4 +132,22 @@ class RepairRepository
 
         return $repairs;
     }
+
+    public function linkInvoice(int $repairId, int $invoiceId): void
+    {
+        $this->dao->linkInvoice($repairId, $invoiceId);
+    }
+
+    public function findByStatus(string $status): array
+    {
+        $rows = $this->dao->findByStatus($status);
+        $repairs = [];
+
+        foreach ($rows as $row) {
+            // mapRowToEntity automaticky sestaví celý objektový graf
+            $repairs[] = $this->mapRowToEntity($row);
+        }
+
+        return $repairs;
+    }
 }
