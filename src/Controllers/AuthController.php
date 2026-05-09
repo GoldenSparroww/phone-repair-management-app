@@ -12,7 +12,7 @@ use App\Core\Session;
  * Kontroler pro správu autentizace uživatelů.
  * Zpracovává HTTP požadavky pro přihlášení a odhlášení ze systému.
  */
-final class AuthController extends AbstractController
+class AuthController extends AbstractController
 {
     // Tento kontroler je veřejný, nevyžaduje přihlášení
     protected bool $requireAuth = false;

@@ -11,7 +11,7 @@ use Exception;
  * Kontroler pro správu zákazníků.
  * Zpracovává HTTP požadavky pro zobrazení formulářů a ukládání nových zákazníků.
  */
-final class CustomerController extends AbstractController
+class CustomerController extends AbstractController
 {
     public function __construct(
         protected ViewWrapper $view,
