@@ -114,7 +114,6 @@ class RepairController extends AbstractController
                 );
                 $this->redirect('/repair/waiting');
             } catch (\Exception $e) {
-                // Ošetření alternativního scénáře 3b-A (chybějící ceník / chyba validace)
                 $this->redirect('/repair/waiting?error=' . urlencode($e->getMessage()));
             }
         }

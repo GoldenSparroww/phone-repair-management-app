@@ -40,9 +40,13 @@ class RepairRepository
         return $this->mapRowToEntity($row);
     }
 
+    // src/Persistence/Repository/RepairRepository.php
+
     public function save(Repair $repair): void
     {
         $technician = $repair->getTechnician();
+        // Přidání načtení ceníku
+        $pricing = $repair->getPricing();
 
         $data = [
             'started'      => $repair->getStartDate(),
@@ -50,7 +54,9 @@ class RepairRepository
             'description'  => $repair->getDescription(),
             'device_id'    => $repair->getDevice()->getId(),
             'status'       => $repair->getState()->getStatusName(),
-            'employee_id'  => $technician !== null ? $technician->getId() : null
+            'employee_id'  => $technician !== null ? $technician->getId() : null,
+            'notes'        => $repair->getNotes(),
+            'price_id'     => $pricing !== null ? $pricing->getId() : null
         ];
 
         if ($repair->getId() === null) {
