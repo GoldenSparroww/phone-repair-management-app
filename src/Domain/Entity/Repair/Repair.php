@@ -33,7 +33,6 @@ class Repair
         return $this->technician;
     }
 
-    // Delegace stavových operací na objekt stavu
     public function assignTechnician(Employee $technician): void
     {
         $this->state->assignTechnician($this, $technician);
@@ -74,7 +73,6 @@ class Repair
     public function setPricing(?Pricing $pricing): void { $this->pricing = $pricing; }
     public function getPricing(): ?Pricing { return $this->pricing; }
 
-    // Metoda pro dokončení práce (volá State pattern)
     public function finishWork(string $notes, Pricing $pricing): void
     {
         $this->setNotes($notes);

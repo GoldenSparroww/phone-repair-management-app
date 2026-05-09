@@ -1,8 +1,27 @@
-{% extends 'Base.twig' %}
+{% extends "Base.twig" %}
 
-{% block title %}Title{% endblock %}
+{% block title %}Dashboard{% endblock %}
 
 {% block content %}
-    {# zacatek #}
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pellentesque, mauris sed pharetra ultrices, orci turpis
+    <h2 class="mb-4">Přehled systému</h2>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3 shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title text-uppercase text-white-50">Nové opravy dnes</h6>
+                    <h1 class="display-4 fw-bold mb-0">{{ countToday }}</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3 shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title text-uppercase text-white-50">Opravy za 7 dní</h6>
+                    <h1 class="display-4 fw-bold mb-0">{{ countWeek }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

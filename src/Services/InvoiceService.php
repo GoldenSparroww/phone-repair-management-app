@@ -17,7 +17,6 @@ class InvoiceService
 
     public function getRepairedRepairs(): array
     {
-        // Vrátí všechny opravy ve stavu 'Opravena'
         return $this->repairRepository->findByStatus('Opravena');
     }
 
@@ -33,7 +32,7 @@ class InvoiceService
 
         $invoiceId = $this->invoiceRepository->save($invoice);
 
-        // 2. Aktualizace opravy (Propojení a změna stavu)
+        // Aktualizace opravy (Propojení a změna stavu)
         $repair->setState(new InvoicedState());
         // Do RepairRepository/DAO musíme přidat možnost uložit invoice_id
         $this->repairRepository->linkInvoice($repairId, $invoiceId);

@@ -27,7 +27,7 @@ class InvoiceController extends AbstractController
 
             try {
                 $this->invoiceService->createInvoiceForRepair($repairId, $method);
-                $this->redirect('/repair/browse'); // Nebo seznam faktur
+                $this->redirect('/repair/browse');
             } catch (\Exception $e) {
                 echo $this->view->render('InvoiceCreate.twig', [
                     'error' => $e->getMessage(),

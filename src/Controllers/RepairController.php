@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Core\AbstractController;
+use App\Core\Session;
 use App\Core\ViewWrapper;
 use App\DTO\NewRepairDTO;
 use App\Services\RepairService;
@@ -66,6 +67,7 @@ class RepairController extends AbstractController
         // Získání techniků pro roletku ve formuláři přiřazení
         $technicians = $this->repairService->getAllTechnicians();
 
+        var_dump($repair);
         echo $this->view->render('RepairsDetail.twig', [
             'repair' => $repair,
             'technicians' => $technicians
@@ -82,7 +84,6 @@ class RepairController extends AbstractController
                 // Volání doménové logiky, která přesune stav opravy
                 $this->repairService->assignTechnicianToRepair($repairId, $employeeId);
             } catch (Exception $e) {
-                // Zde lze chybu zpracovat nebo předat do šablony (např. přes session)
             }
 
             // Po zpracování přesměrujeme uživatele zpět na detail stejné opravy
@@ -93,7 +94,7 @@ class RepairController extends AbstractController
     public function waiting(): void
     {
         // Získání ID přihlášeného technika ze session
-        $user = \App\Core\Session::get('user');
+        $user = Session::get('user');
         $techniciansRepairs = $this->repairService->getRepairsForTechnician($user['id']);
         $pricingList = $this->repairService->getAllPricingItems();
 

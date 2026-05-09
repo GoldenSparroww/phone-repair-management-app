@@ -11,10 +11,6 @@ class PricingRepository
         private PricingDAO $dao
     ) {}
 
-    /**
-     * Získá všechny položky ceníku jako pole doménových objektů.
-     * * @return Pricing[]
-     */
     public function getAll(): array
     {
         $rows = $this->dao->getAll();
@@ -27,9 +23,6 @@ class PricingRepository
         return $pricingList;
     }
 
-    /**
-     * Získá jednu konkrétní položku ceníku jako doménový objekt.
-     */
     public function findById(int $id): ?Pricing
     {
         $row = $this->dao->findById($id);
@@ -41,9 +34,6 @@ class PricingRepository
         return $this->mapRowToEntity($row);
     }
 
-    /**
-     * Převádí asociativní pole databáze na objekt Pricing.
-     */
     private function mapRowToEntity(array $row): Pricing
     {
         $pricing = new Pricing(

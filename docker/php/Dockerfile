@@ -1,37 +1,21 @@
 FROM php:8.2-apache
 
-# Instalace systémových závislostí a rozšíření pro PostgreSQL
-FROM php:8.2-apache
-
-# Instalace systémových závislostí pro PHP rozšíření
+# 1. Instalace závislostí, PHP modulů, vyčištění cache a povolení mod_rewrite
 RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    unzip \
-    git \
-    libxml2-dev \
-    libpng-dev \
-    libjpeg-dev \
+    libpq-dev unzip git libxml2-dev libpng-dev libjpeg-dev \
     && docker-php-ext-configure gd --with-jpeg \
-    && docker-php-ext-install pdo pdo_mysql dom gd
+    && docker-php-ext-install pdo pdo_mysql dom gd \
+    && a2enmod rewrite \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Povolení mod_rewrite
-RUN a2enmod rewrite
-
-# Konfigurace vhost
+# 2. Kopírování konfigurace Apache a instalace Composeru
 COPY docker/apache/vhost.conf /etc/apache2/sites-available/000-default.conf
-
-# Instalace Composeru
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Povolení modulu mod_rewrite pro Apache (nutné pro routování)
-RUN a2enmod rewrite
+# 3. Zkopírování souborů aplikace do kontejneru (nutné pro Composer)
+COPY . .
 
-# Zkopírování konfigurace virtuálního hostitele
-COPY docker/apache/vhost.conf /etc/apache2/sites-available/000-default.conf
-
-# Instalace Composeru
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-WORKDIR /var/www/html
+# 4. Instalace závislostí přes Composer
+RUN composer require dompdf/dompdf:^3.0

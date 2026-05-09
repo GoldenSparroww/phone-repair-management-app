@@ -41,12 +41,9 @@ class RepairRepository
         return $this->mapRowToEntity($row);
     }
 
-    // src/Persistence/Repository/RepairRepository.php
-
     public function save(Repair $repair): void
     {
         $technician = $repair->getTechnician();
-        // Přidání načtení ceníku
         $pricing = $repair->getPricing();
 
         $data = [
@@ -70,17 +67,17 @@ class RepairRepository
 
     private function mapRowToEntity(array $row): Repair
     {
-        // 1. Získání zařízení
+        // Získání zařízení
         $device = $this->deviceRepository->findById((int)$row['device_id']);
 
-        // 2. Sestavení opravy
+        // Sestavení opravy
         $repair = $this->builder
             ->setDevice($device)
             ->setDates($row['started'], $row['expected_end'])
             ->setDescription($row['description'])
             ->build();
 
-        // 3. Nastavení ID a stavu
+        // Nastavení ID a stavu
         $repair->setId((int)$row['id']);
         $repair->setState($this->mapStatusToState($row['status']));
 
@@ -89,7 +86,7 @@ class RepairRepository
             $repair->setNotes($row['notes']);
         }
 
-        // 4. Přiřazení technika
+        // přiřazení technika
         if (!empty($row['employee_id'])) {
             $technician = $this->employeeRepository->findById((int)$row['employee_id']);
             if ($technician) {
@@ -97,14 +94,13 @@ class RepairRepository
             }
         }
 
-        // 5. Načtení a přiřazení úkonu z ceníku (TOTO PŘIDEJ)
+        // Načtení a přiřazení úkonu z ceníku
         if (!empty($row['price_id'])) {
             $pricing = $this->pricingRepository->findById((int)$row['price_id']);
             if ($pricing) {
                 $repair->setPricing($pricing);
             }
         }
-
 
         return $repair;
     }
@@ -131,17 +127,12 @@ class RepairRepository
         return $repairs;
     }
 
-    /**
-     * Vrátí pole objektů Repair pro daného technika a stav.
-     * @return Repair[]
-     */
     public function findByTechnicianAndStatus(int $technicianId, string $status): array
     {
         $rows = $this->dao->findByTechnicianAndStatus($technicianId, $status);
         $repairs = [];
 
         foreach ($rows as $row) {
-            // mapRowToEntity zajistí sestavení objektu včetně Device a Customer
             $repairs[] = $this->mapRowToEntity($row);
         }
 
@@ -159,10 +150,13 @@ class RepairRepository
         $repairs = [];
 
         foreach ($rows as $row) {
-            // mapRowToEntity automaticky sestaví celý objektový graf
             $repairs[] = $this->mapRowToEntity($row);
         }
 
         return $repairs;
+    }
+
+    public function getCountSince(string $date): int {
+        return $this->dao->getCountSince($date);
     }
 }

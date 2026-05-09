@@ -14,14 +14,13 @@ Session::start();
 
 $container = new DIContainer();
 
-// Ručně musíme registrovat jen věci, které vyžadují speciální nastavení
-// nebo rozhraní, u kterých chceme říct, která konkrétní třída je implementuje.
+// Ručně se musí registrovat jen věci, které vyžadují speciální nastavení
 $container->set(\App\Core\ViewWrapper::class, function() {
     return new \App\Core\ViewWrapper();
 });
 
 // Všechno ostatní (Controller -> Service -> Repository -> DAO)
-// se vyřeší samo při prvním zavolání v Routeru!
+// se vyřeší samo při prvním zavolání v Routeru
 
 $router = new Router($container);
 $router->run();

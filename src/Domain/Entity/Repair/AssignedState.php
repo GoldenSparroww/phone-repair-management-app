@@ -8,7 +8,6 @@ class AssignedState implements RepairStateInterface
 {
     public function assignTechnician(Repair $repair, Employee $technician): void
     {
-        // Změna technika je v tomto stavu možná
         $repair->setTechnician($technician);
     }
 

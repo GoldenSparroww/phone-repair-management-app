@@ -31,7 +31,7 @@ class CustomerController extends AbstractController
                     (int)$this->getPostParam('zip')
                 );
 
-                // Po úspěšném založení se vrátíme na formulář pro přidání opravy
+                // Po úspěšném založení se vrátí na formulář pro přidání opravy
                 $this->redirect('/repair/create');
             } catch (Exception $e) {
                 echo $this->view->render('CustomerCreate.twig', [

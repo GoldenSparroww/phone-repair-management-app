@@ -31,12 +31,10 @@
         <div class="bg-body-tertiary border-bottom py-2">
             <div class="container d-flex align-items-center">
 
-                <!-- 1. ČÁST: Úplně vlevo (Brand) -->
                 <div style="flex: 1; display: flex; justify-content: flex-start;">
-                    <a class="navbar-brand fw-bold fs-4" href="/home">Lorem ipsum</a>
+                    <a class="navbar-brand fw-bold fs-4" href="/dashboard">Opravna Telefonů</a>
                 </div>
 
-                <!-- 2. ČÁST: Uprostřed (Navigace) -->
                 <div style="flex: 3; display: flex; justify-content: center;">
                     <ul class="nav">
                     {% if session.user %}
@@ -45,7 +43,7 @@
                         {% endif %}
 
                         {% if session.user.role in ['receptionist', 'admin'] %}
-                            <li class="nav-item"><a href="/invoice/browse" class="nav-link link-body-emphasis px-2">Faktury</a></li>
+                            <li class="nav-item"><a href="/invoice/create" class="nav-link link-body-emphasis px-2">Faktury</a></li>
                             <li class="nav-item"><a href="/repair/browse" class="nav-link link-body-emphasis px-2">Záznamy oprav</a></li>
                         {% endif %}
 
@@ -54,13 +52,12 @@
                         {% endif %}
 
                         {% if session.user.role == 'admin' %}
-                            <li class="nav-item"><a href="/manage/employees" class="nav-link link-body-emphasis px-2">Spravovat</a></li>
+                            <li class="nav-item"><a href="/manage/assignments" class="nav-link link-body-emphasis px-2">Spravovat</a></li>
                         {% endif %}
                     {% endif %}
                     </ul>
                 </div>
 
-                <!-- 3. ČÁST: Úplně vpravo (User / Logout) -->
                 <div style="flex: 1; display: flex; justify-content: flex-end;">
                     <ul class="nav align-items-center">
                     {% if session.user %}
@@ -87,7 +84,6 @@
                     {# Submenu Faktury #}
                     {% if session.user.role in ['receptionist', 'admin'] %}
                         <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-semibold d-none" id="nav-invoice">
-                            <li class="nav-item"><a class="nav-link px-3" href="/invoice/browse">Procházet</a></li>
                             <li class="nav-item"><a class="nav-link px-3" href="/invoice/create">Nová faktura</a></li>
                         </ul>
                     {% endif %}
@@ -103,8 +99,6 @@
                     {# Submenu Spravovat #}
                     {% if session.user.role == 'admin' %}
                         <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-semibold d-none" id="nav-manage">
-                            <li class="nav-item"><a class="nav-link px-3" href="/manage/employees">Zaměstnanci</a></li>
-                            <li class="nav-item"><a class="nav-link px-3" href="/manage/price-list">Ceník</a></li>
                             <li class="nav-item"><a class="nav-link px-3" href="/manage/assignments">Přidělování</a></li>
                         </ul>
                     {% endif %}
@@ -124,13 +118,13 @@
             const navrepair = document.getElementById('nav-repair');
             const navManage = document.getElementById('nav-manage');
 
-            // 1. Skrytí druhé navigace pro Dashboard a Procházet opravy (chová se jako dashboard)
+            // Skrytí druhé navigace pro Dashboard a Procházet opravy (chová se jako dashboard)
             if (path === '/dashboard' || path === '/repair/waiting') {
                 if (secondaryNav) secondaryNav.classList.add('d-none');
                 return;
             }
 
-            // 2. Logika pro zobrazení specifických submenu
+            // Logika pro zobrazení specifických submenu
             if (path.startsWith('/invoice') || path.startsWith('/repair') || path.startsWith('/manage')) {
                 if (navDefault) navDefault.classList.add('d-none');
             }

@@ -16,12 +16,9 @@ class ManageController extends AbstractController
         parent::__construct($view);
     }
 
-    /**
-     * Zpracovává URL: /manage/assignments
-     */
     public function assignments(): void
     {
-        // 1. Zpracování POST požadavku (odeslání formuláře s přiřazením)
+        // Zpracování POST požadavku (odeslání formuláře s přiřazením)
         if ($this->isPost()) {
             $repairId = (int)$this->getPostParam('repair_id');
             $technicianId = (int)$this->getPostParam('technician_id');
@@ -44,7 +41,7 @@ class ManageController extends AbstractController
             return;
         }
 
-        // 2. Zpracování GET požadavku (zobrazení stránky)
+        // Zpracování GET požadavku (zobrazení stránky)
         $unassignedRepairs = $this->repairService->getUnassignedRepairs();
         $technicians = $this->repairService->getAllTechnicians();
 

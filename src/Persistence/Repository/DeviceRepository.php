@@ -36,7 +36,6 @@ class DeviceRepository
 
     private function mapRowToEntity(array $row): Device
     {
-        // Nejdříve musíme získat objekt zákazníka
         $customer = $this->customerRepository->findById((int)$row['customer_id']);
 
         if (!$customer) {

@@ -112,4 +112,10 @@ class RepairDAO extends AbstractDAO
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
     }
+
+    public function getCountSince(string $date): int {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM repairs WHERE started >= :date");
+        $stmt->execute(['date' => $date]);
+        return (int)$stmt->fetchColumn();
+    }
 }

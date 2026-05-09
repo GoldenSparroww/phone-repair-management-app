@@ -35,13 +35,13 @@ class RepairService
 
     public function createNewRepair(NewRepairDTO $dto): void
     {
-        // 1. Získání existujícího zákazníka podle telefonu
+        // Získání existujícího zákazníka podle telefonu
         $customer = $this->customerRepository->findByPhone($dto->customerPhone);
         if (!$customer) {
             throw new Exception("Zákazník s telefonním číslem {$dto->customerPhone} nebyl nalezen.");
         }
 
-        // 2. Získání existujícího zařízení podle sériového čísla
+        // Získání existujícího zařízení podle sériového čísla
         $device = $this->deviceRepository->findBySerial($dto->serial);
         if (!$device) {
             // Zařízení neexistuje -> vytvoříme ho
@@ -55,7 +55,7 @@ class RepairService
             }
         }
 
-        // 3. Sestavení opravy
+        //Sestavení opravy
         $builder = new RepairBuilder();
         $repair = $builder
             ->setDevice($device)
@@ -63,7 +63,7 @@ class RepairService
             ->setDescription($dto->description)
             ->build();
 
-        // 4. Uložení opravy
+        // Uložení opravy
         $this->repairRepository->save($repair);
     }
 
@@ -93,8 +93,6 @@ class RepairService
         return $this->repairRepository->getUnassignedRepairs();
     }
 
-    // src/Services/RepairService.php
-
     public function getRepairsForTechnician(int $technicianId): array
     {
         return $this->repairRepository->findByTechnicianAndStatus($technicianId, 'Přiřazená');
@@ -116,11 +114,12 @@ class RepairService
         $this->repairRepository->save($repair);
     }
 
-    /**
-     * Pro potřeby UC06 - Technik vybírá úkon z číselníku
-     */
     public function getAllPricingItems(): array
     {
         return $this->pricingRepository->getAll();
+    }
+
+    public function getRepairsCountSince(string $date): int {
+        return $this->repairRepository->getCountSince($date);
     }
 }

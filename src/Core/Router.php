@@ -5,7 +5,7 @@ use Exception;
 
 class Router
 {
-    // Přidáme závislost na kontejneru
+    // závislost na kontejneru
     public function __construct(
         private DIContainer $diContainer
     ) {}
@@ -21,12 +21,12 @@ class Router
         // Získáme plné jméno třídy (např. App\Controllers\RepairController)
         $controllerClass = "App\\Controllers\\" . $controllerName;
 
-        // Kontrola, zda kontejner ví, jak tento kontroler postavit
+        // Kontrola, zda kontejner ví, jak tento controller postavit
         if (!$this->diContainer->has($controllerClass)) {
             throw new Exception("Page '$controllerName' not found or not registered in container", 404);
         }
 
-        // Vyzvedneme kontroler z kontejneru (už se všemi závislostmi)
+        // Vyzvedneme controller z kontejneru (už se všemi závislostmi)
         $controller = $this->diContainer->get($controllerClass);
 
         if (!method_exists($controller, $actionName)) {
