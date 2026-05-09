@@ -12,6 +12,8 @@ RUN apt-get update && apt-get install -y \
 COPY docker/apache/vhost.conf /etc/apache2/sites-available/000-default.conf
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+RUN git config --global --add safe.directory /var/www/html
+
 WORKDIR /var/www/html
 
 # 3. Zkopírování souborů aplikace do kontejneru (nutné pro Composer)

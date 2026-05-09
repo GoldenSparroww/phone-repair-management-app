@@ -13,9 +13,10 @@ class Router
     public function run(): void
     {
         $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+
         $segments = explode('/', $uri);
 
-        $controllerName = !empty($segments[0]) ? ucfirst($segments[0]) . 'Controller' : 'HomeController';
+        $controllerName = !empty($segments[0]) ? ucfirst($segments[0]) . 'Controller' : 'DashboardController';
         $actionName = $segments[1] ?? 'index';
 
         // Získáme plné jméno třídy (např. App\Controllers\RepairController)
