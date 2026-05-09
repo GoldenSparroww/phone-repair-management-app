@@ -1,0 +1,50 @@
+{% extends "Base.twig" %}
+
+{% block title %}Záznamy oprav{% endblock %}
+
+{% block content %}
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-striped table-hover align-middle mb-0">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Telefon zákazníka</th>
+                <th>Zařízení</th>
+                <th>Zahájení</th>
+                <th>Předpokládané dokončení</th>
+                <th>Stav</th>
+                <th class="text-end">Akce</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for repair in repairs %}
+                <tr>
+                    <td class="fw-bold">{{ repair.id }}</td>
+                    <td>{{ repair.device.customer.phone }}</td>
+                    <td>
+                        {{ repair.device.brand }} {{ repair.device.model }}
+                        <br>
+                        <small class="text-muted">SN: {{ repair.device.serial }}</small>
+                    </td>
+                    <td>{{ repair.startDate|date("d.m.Y") }}</td>
+                    <td>{{ repair.estimatedEndDate|date("d.m.Y") }}</td>
+                    <td>
+                        <span class="badge bg-secondary">{{ repair.state.statusName }}</span>
+                    </td>
+                    <td class="text-end">
+                        <a href="/repairs/detail/{{ repair.id }}" class="btn btn-sm btn-outline-info">
+                            <i class="bi bi-eye"></i> Detail
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7" class="text-center py-4 text-muted">
+                        V systému se aktuálně nenachází žádné záznamy o opravách.
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,3 +1,4 @@
+-- 1._vytvoreni_databaze_a_tabulek.sql
 SET NAMES utf8mb4;
 CREATE DATABASE IF NOT EXISTS phone_repair_management_app;
 USE phone_repair_management_app;
@@ -71,10 +72,11 @@ started date not null,
 expected_end date not null,
 description text not null,
 notes text,
-employee_id integer not null,
-invoice_id bigint not null,
-price_id smallint not null,
+employee_id integer NULL,
+invoice_id bigint NULL,
+price_id smallint NULL,
 device_id bigint not null,
+status varchar(50) not null default 'Založeno',
 foreign key (employee_id) references employees(id),
 foreign key (invoice_id) references invoices(id),
 foreign key (price_id) references pricing(id),

@@ -1,0 +1,112 @@
+{% extends "Base.twig" %}
+
+{% block title %}Založení nové opravy{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="mb-0"><i class="bi bi-tools me-2"></i>Založení nové opravy</h4>
+                </div>
+
+                <div class="card-body p-4">
+                    <form action="/repair/create" method="POST">
+
+                        {# Zákazník #}
+                        <h5 class="mb-3 border-bottom pb-2 text-primary">Informace o zákazníkovi</h5>
+                        <div class="mb-4 row">
+                            <div class="col-md-6">
+                                <label for="customerPhone" class="form-label fw-semibold">Telefonní číslo</label>
+                                <input type="tel" class="form-control" id="customerPhone" name="customer_phone" required placeholder="+420 ...">
+                                <div class="form-text">Zadejte existující nebo nové telefonní číslo zákazníka.</div>
+                            </div>
+                        </div>
+
+                        {# Zařízení #}
+                        <h5 class="mb-3 border-bottom pb-2 text-primary">Informace o zařízení</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="deviceBrand" class="form-label fw-semibold">Značka</label>
+                                <input type="text" class="form-control" id="deviceBrand" name="brand" required placeholder="Např. Samsung">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="deviceModel" class="form-label fw-semibold">Model</label>
+                                <input type="text" class="form-control" id="deviceModel" name="model" required placeholder="Např. Galaxy S23">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="serialNumber" class="form-label fw-semibold">Sériové číslo (SN)</label>
+                                <input type="text" class="form-control" id="serialNumber" name="serial" required>
+                            </div>
+                        </div>
+
+                        {# Detaily opravy #}
+                        <h5 class="mb-3 mt-4 border-bottom pb-2 text-primary">Podrobnosti zakázky</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="startDate" class="form-label fw-semibold">Datum zahájení</label>
+                                <input type="date" class="form-control" id="startDate" name="start_date" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="endDate" class="form-label fw-semibold">Předpokládané datum dokončení</label>
+                                <input type="date" class="form-control" id="endDate" name="end_date" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="description" class="form-label fw-semibold">Detailní popis závady</label>
+                            <textarea class="form-control" id="description" name="description" rows="5" required placeholder="Popište podrobně problém a vizuální stav zařízení při příjmu..."></textarea>
+                        </div>
+
+                        {# Zobrazení chyby (pokud existuje) #}
+                        {% if error is defined and error is not empty %}
+                            <div class="alert alert-danger d-flex align-items-center mt-4" role="alert">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                <div>
+                                    {{ error }}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {# Akce #}
+                        <div class="d-flex justify-content-end align-items-center mt-5 pt-3 border-top">
+                            <button type="submit" class="btn btn-success px-4">
+                                <i class="bi bi-check2-circle me-1"></i> Vytvořit záznam
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% block javascripts %}
+        <script>
+            // Automatické předvyplnění dnešního data do pole "Datum zahájení"
+            document.addEventListener("DOMContentLoaded", function() {
+                const today = new Date().toISOString().split('T')[0];
+                const startDateInput = document.getElementById('startDate');
+                if (startDateInput && !startDateInput.value) {
+                    startDateInput.value = today;
+                }
+
+                // Klientská validace chrnologie (UC03 - 4-A Alternativní scénář)
+                const form = document.querySelector('form');
+                const endDateInput = document.getElementById('endDate');
+
+                form.addEventListener('submit', function(e) {
+                    if (startDateInput.value && endDateInput.value) {
+                        if (endDateInput.value < startDateInput.value) {
+                            e.preventDefault();
+                            alert("Varování: Předpokládané datum dokončení nesmí předcházet datu zahájení.");
+                            endDateInput.classList.add('is-invalid');
+                        } else {
+                            endDateInput.classList.remove('is-invalid');
+                        }
+                    }
+                });
+            });
+        </script>
+    {% endblock %}
+{% endblock %}

@@ -46,11 +46,11 @@
 
                         {% if session.user.role in ['receptionist', 'admin'] %}
                             <li class="nav-item"><a href="/invoice/browse" class="nav-link link-body-emphasis px-2">Faktury</a></li>
-                            <li class="nav-item"><a href="/repairs/browse" class="nav-link link-body-emphasis px-2">Záznamy oprav</a></li>
+                            <li class="nav-item"><a href="/repair/browse" class="nav-link link-body-emphasis px-2">Záznamy oprav</a></li>
                         {% endif %}
 
                         {% if session.user.role in ['service technician', 'admin'] %}
-                            <li class="nav-item"><a href="/repairs/waiting" class="nav-link link-body-emphasis px-2">Opravy ke zpracování</a></li>
+                            <li class="nav-item"><a href="/repair/waiting" class="nav-link link-body-emphasis px-2">Opravy ke zpracování</a></li>
                         {% endif %}
 
                         {% if session.user.role == 'admin' %}
@@ -94,9 +94,9 @@
 
                     {# Submenu Záznamy oprav #}
                     {% if session.user.role in ['receptionist', 'admin'] %}
-                        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-semibold d-none" id="nav-repairs">
-                            <li class="nav-item"><a class="nav-link px-3" href="/repairs/browse">Procházet</a></li>
-                            <li class="nav-item"><a class="nav-link px-3" href="/repairs/create">Nová oprava</a></li>
+                        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-semibold d-none" id="nav-repair">
+                            <li class="nav-item"><a class="nav-link px-3" href="/repair/browse">Procházet</a></li>
+                            <li class="nav-item"><a class="nav-link px-3" href="/repair/create">Nová oprava</a></li>
                         </ul>
                     {% endif %}
 
@@ -121,24 +121,24 @@
             const secondaryNav = document.getElementById('secondary-nav');
             const navDefault = document.getElementById('nav-default');
             const navInvoice = document.getElementById('nav-invoice');
-            const navRepairs = document.getElementById('nav-repairs');
+            const navrepair = document.getElementById('nav-repair');
             const navManage = document.getElementById('nav-manage');
 
             // 1. Skrytí druhé navigace pro Dashboard a Procházet opravy (chová se jako dashboard)
-            if (path === '/dashboard' || path === '/repairs/waiting') {
+            if (path === '/dashboard' || path === '/repair/waiting') {
                 if (secondaryNav) secondaryNav.classList.add('d-none');
                 return;
             }
 
             // 2. Logika pro zobrazení specifických submenu
-            if (path.startsWith('/invoice') || path.startsWith('/repairs') || path.startsWith('/manage')) {
+            if (path.startsWith('/invoice') || path.startsWith('/repair') || path.startsWith('/manage')) {
                 if (navDefault) navDefault.classList.add('d-none');
             }
 
             if (path.startsWith('/invoice') && navInvoice) {
                 navInvoice.classList.remove('d-none');
-            } else if (path.startsWith('/repairs') && navRepairs) {
-                navRepairs.classList.remove('d-none');
+            } else if (path.startsWith('/repair') && navrepair) {
+                navrepair.classList.remove('d-none');
             } else if (path.startsWith('/manage') && navManage) {
                 navManage.classList.remove('d-none');
             }

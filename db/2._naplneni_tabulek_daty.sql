@@ -1,3 +1,4 @@
+-- 2._naplneni_tabulek_daty.sql
 SET NAMES utf8mb4;
 USE phone_repair_management_app;
 
@@ -98,4 +99,3 @@ values
     ('2024-02-13', '2024-02-22', 'Zanesené konektory', 'Špatný signál, není součástí opravy', 102, 500001, 3001, 13),
     ('2024-02-03', '2024-02-12', 'Rozbitá zadní kamera', null, 101, 500002, 1003, 3),
     ('2024-02-10', '2024-02-24', 'Zanesené konektory', null, 104, 500010, 3001, 5);
-

@@ -32,9 +32,9 @@ class ViewWrapper {
      * @throws \Twig\Error\SyntaxError
      */
     public function render(string $template, array $data = []): string {
-        if (Session::isLoggedIn() and Session::get("user") === 0){
+        /*if (Session::isLoggedIn() and Session::get("user") === 0){
             return $this->twig->render("UserBlocked.twig");
-        }
+        }*/
 
         return $this->twig->render($template, $data);
     }
