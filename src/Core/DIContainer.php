@@ -36,17 +36,17 @@ class DIContainer
      */
     public function get(string $id)
     {
-        // 1. Pokud už máme hotovou instanci (Singleton), vrátíme ji
+        // Pokud už máme hotovou instanci (Singleton), vrátíme ji
         if (isset($this->instances[$id])) {
             return $this->instances[$id];
         }
 
-        // 2. Pokud máme ruční definici (factory), použijeme ji
+        // pokud máme ruční definici (factory), použijeme ji
         if (isset($this->entries[$id])) {
             return $this->instances[$id] = ($this->entries[$id])($this);
         }
 
-        // 3. Jinak zkusíme Autowiring
+        // Jinak zkusíme Autowiring
         return $this->instances[$id] = $this->autowire($id);
     }
 

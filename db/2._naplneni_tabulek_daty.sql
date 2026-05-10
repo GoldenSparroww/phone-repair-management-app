@@ -1,4 +1,3 @@
--- 2._naplneni_tabulek_daty.sql
 SET NAMES utf8mb4;
 USE phone_repair_management_app;
 

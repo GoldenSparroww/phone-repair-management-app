@@ -1,4 +1,3 @@
--- 1._vytvoreni_databaze_a_tabulek.sql
 SET NAMES utf8mb4;
 CREATE DATABASE IF NOT EXISTS phone_repair_management_app;
 USE phone_repair_management_app;

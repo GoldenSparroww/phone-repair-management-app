@@ -7,7 +7,7 @@ use App\Persistence\Repository\CustomerRepository;
 use Exception;
 
 /**
- * Služba zapouzdřující obchodní logiku pro správu zákazníků.
+ * Služba zapouzdřující logiku pro správu zákazníků.
  * Validuje data a koordinuje ukládání nových záznamů napříč repozitářem.
  */
 class CustomerService

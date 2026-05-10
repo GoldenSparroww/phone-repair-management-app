@@ -7,7 +7,7 @@ use App\Domain\Entity\User\UserRole;
 use App\Persistence\DAO\UserDAO;
 
 /**
- * Repozitář pro entitu User.
+ * Repozitář pro entity User.
  * Zajišťuje načítání a instancování objektů uživatelů pro potřeby ověření přístupu.
  */
 class UserRepository

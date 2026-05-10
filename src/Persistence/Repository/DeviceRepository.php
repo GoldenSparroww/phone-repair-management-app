@@ -9,7 +9,7 @@ use Exception;
 
 /**
  * Repozitář pro entitu Device.
- * Převádí relační data z DeviceDAO na doménové objekty. Řeší závislosti na entitě Customer.
+ * Převádí relační data z DeviceDAO na doménové objekty.
  */
 class DeviceRepository
 {

@@ -44,7 +44,6 @@ class RepairController extends AbstractController
                     $this->getPostParam('description')
                 );
 
-                // Služba nyní přijímá objekt typu NewRepairDTO
                 $this->repairService->createNewRepair($dto);
 
                 $this->redirect('/repair/browse');
@@ -68,7 +67,6 @@ class RepairController extends AbstractController
             $this->redirect('/repair/browse');
         }
 
-        // Získání techniků pro roletku ve formuláři přiřazení
         $technicians = $this->repairService->getAllTechnicians();
 
         echo $this->view->render('RepairsDetail.twig', [
@@ -84,7 +82,6 @@ class RepairController extends AbstractController
             $employeeId = (int)$this->getPostParam('technician_id');
 
             try {
-                // Volání doménové logiky, která přesune stav opravy
                 $this->repairService->assignTechnicianToRepair($repairId, $employeeId);
             } catch (Exception $e) {
             }

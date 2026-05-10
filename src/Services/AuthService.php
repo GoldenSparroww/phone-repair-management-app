@@ -7,7 +7,7 @@ use App\DTO\UserLoginDTO;
 use App\Persistence\Repository\UserRepository;
 
 /**
- * Služba zapouzdřující obchodní logiku autentizace.
+ * Služba zapouzdřující logiku autentizace.
  * Ověřuje přihlašovací údaje a inicializuje uživatelskou relaci.
  */
 class AuthService

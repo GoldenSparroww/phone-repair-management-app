@@ -9,7 +9,7 @@ use App\Persistence\Repository\RepairRepository;
 use Exception;
 
 /**
- * Služba zapouzdřující obchodní logiku fakturace.
+ * Služba zapouzdřující logiku fakturace.
  * Zajišťuje proces propojení dokončené opravy s nově vytvořenou fakturou a manipulaci se stavy.
  */
 class InvoiceService
@@ -29,7 +29,7 @@ class InvoiceService
         $repair = $this->repairRepository->findById($repairId);
         if (!$repair) throw new Exception("Oprava nenalezena.");
 
-        // 1. Vytvoření záznamu faktury
+        // Vytvoření záznamu faktury
         $issued = date('Y-m-d');
         $due = date('Y-m-d', strtotime('+14 days'));
         $invoice = new Invoice($issued, $due, $method, $repair->getDevice()->getCustomer()->getId());
@@ -38,7 +38,6 @@ class InvoiceService
 
         // Aktualizace opravy (Propojení a změna stavu)
         $repair->setState(new InvoicedState());
-        // Do RepairRepository/DAO musíme přidat možnost uložit invoice_id
         $this->repairRepository->linkInvoice($repairId, $invoiceId);
         $this->repairRepository->save($repair);
 

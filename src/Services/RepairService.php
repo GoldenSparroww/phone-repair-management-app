@@ -14,7 +14,7 @@ use App\Persistence\Repository\RepairRepository;
 use Exception;
 
 /**
- * Hlavní služba pro správu oprav (Fasáda).
+ * Hlavní služba pro správu oprav.
  * Orchetruje procesy vytváření, přiřazování a dokončování oprav prostřednictvím doménových entit a příslušných repozitářů.
  */
 class RepairService
@@ -39,7 +39,6 @@ class RepairService
 
     public function createNewRepair(NewRepairDTO $dto): void
     {
-        // Získání existujícího zákazníka podle telefonu
         $customer = $this->customerRepository->findByPhone($dto->customerPhone);
         if (!$customer) {
             throw new Exception("Zákazník s telefonním číslem {$dto->customerPhone} nebyl nalezen.");
@@ -48,18 +47,16 @@ class RepairService
         // Získání existujícího zařízení podle sériového čísla
         $device = $this->deviceRepository->findBySerial($dto->serial);
         if (!$device) {
-            // Zařízení neexistuje -> vytvoříme ho
+            // Zařízení neexistuje -> vytvoříme
             $device = new Device($dto->brand, $dto->model, $dto->serial, $customer);
             // Uložení do DB (tím se vygeneruje a do objektu zapíše ID)
             $this->deviceRepository->save($device);
         } else {
-            // Zařízení existuje -> zkontrolujeme, zda patří tomuto zákazníkovi
             if ($device->getCustomer()->getId() !== $customer->getId()) {
                 throw new Exception("Zařízení se {$dto->serial} je již evidováno u jiného zákazníka.");
             }
         }
 
-        //Sestavení opravy
         $builder = new RepairBuilder();
         $repair = $builder
             ->setDevice($device)
@@ -67,7 +64,6 @@ class RepairService
             ->setDescription($dto->description)
             ->build();
 
-        // Uložení opravy
         $this->repairRepository->save($repair);
     }
 
@@ -111,10 +107,9 @@ class RepairService
             throw new \Exception("Oprava nebo položka ceníku nenalezena.");
         }
 
-        // Provedení business logiky (změna stavu na 'Opravena' přes State Pattern)
+        // změna stavu na 'Opravena' přes State Pattern
         $repair->finishWork($notes, $pricing);
 
-        // Uložení (včetně notes a price_id do DB)
         $this->repairRepository->save($repair);
     }
 

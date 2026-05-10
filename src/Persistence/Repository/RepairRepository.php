@@ -13,7 +13,7 @@ use App\Persistence\DAO\RepairDAO;
 
 /**
  * Repozitář pro entitu Repair.
- * Komplexně sestavuje doménové objekty oprav z databáze a ukládá je. Využívá RepairBuilder a začleňuje související entity.
+ * Sestavuje doménové objekty oprav z databáze a ukládá je. Využívá RepairBuilder a začleňuje související entity.
  */
 class RepairRepository
 {
@@ -71,7 +71,6 @@ class RepairRepository
 
     private function mapRowToEntity(array $row): Repair
     {
-        // Získání zařízení
         $device = $this->deviceRepository->findById((int)$row['device_id']);
 
         // Sestavení opravy
@@ -81,7 +80,6 @@ class RepairRepository
             ->setDescription($row['description'])
             ->build();
 
-        // Nastavení ID a stavu
         $repair->setId((int)$row['id']);
         $repair->setState($this->mapStatusToState($row['status']));
 

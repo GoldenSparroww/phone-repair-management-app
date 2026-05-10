@@ -47,8 +47,6 @@ class RepairDAO extends AbstractDAO
         return (int)$this->db->lastInsertId();
     }
 
-    // src/Persistence/DAO/RepairDAO.php
-
     public function update(int $id, array $data): void
     {
         $sql = "UPDATE repairs 
